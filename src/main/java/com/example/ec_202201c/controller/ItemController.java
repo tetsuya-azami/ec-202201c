@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ItemController {
 	@RequestMapping("")
 	public String index() {
-		return "item_list_noodle";
+		return "item_detail";
 	}
 }
