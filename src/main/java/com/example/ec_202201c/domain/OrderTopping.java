@@ -47,6 +47,9 @@ public class OrderTopping {
 		this.topping = topping;
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "OrderTopping [id=" + id + ", orderItemId=" + orderItemId + ", topping=" + topping
+				+ ", toppingId=" + toppingId + "]";
+	}
 }

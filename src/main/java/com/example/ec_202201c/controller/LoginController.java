@@ -13,10 +13,7 @@ public class LoginController {
 	 */
 	@RequestMapping("/")
 	public String login(String error, Model model) {
-		System.out.println("条件分岐前");
-		System.out.println(error);
 		if (error != null) {
-			System.out.println("errorがnullでない");
 			System.out.println(error);
 			model.addAttribute("errorMessage", "メールアドレスかパスワードが間違っています");
 		}

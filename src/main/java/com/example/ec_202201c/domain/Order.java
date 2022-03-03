@@ -154,12 +154,27 @@ public class Order {
 		this.orderItemList = orderItemList;
 	}
 
+	@Override
+	public String toString() {
+		return "Order [deliveryTime=" + deliveryTime + ", destinationAddress=" + destinationAddress
+				+ ", destinationEmail=" + destinationEmail + ", destinationName=" + destinationName
+				+ ", destinationTel=" + destinationTel + ", destinationZipCode="
+				+ destinationZipCode + ", id=" + id + ", orderDate=" + orderDate
+				+ ", orderItemList=" + orderItemList + ", paymentMethod=" + paymentMethod
+				+ ", status=" + status + ", totalPrice=" + totalPrice + ", user=" + user
+				+ ", userId=" + userId + "]";
+	}
+
 	public int getTax(Integer price) {
 		return (int) (price * 0.1);
 	}
 
 	// 後で実装
 	public int getCalcTotalPrice() {
-		return 0;
+		int totalPrice = 0;
+		for (OrderItem orderItem : getOrderItemList()) {
+			totalPrice += orderItem.getSubTotal();
+		}
+		return totalPrice;
 	}
 }

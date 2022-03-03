@@ -7,23 +7,22 @@ public class OrderItem {
 	private Integer itemId;
 	private Integer orderId;
 	private Integer quantity;
-	private Character Size;
+	private Character size;
 	private Item item;
-	private List<Item> orderToppingList;
+	private List<OrderTopping> orderToppingList;
 
 	public OrderItem() {}
 
 	public OrderItem(Integer id, Integer itemId, Integer orderId, Integer quantity, Character size,
-			Item item, List<Item> orderToppingList) {
+			Item item, List<OrderTopping> orderToppingList) {
 		this.id = id;
 		this.itemId = itemId;
 		this.orderId = orderId;
 		this.quantity = quantity;
-		Size = size;
+		this.size = size;
 		this.item = item;
 		this.orderToppingList = orderToppingList;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -58,11 +57,11 @@ public class OrderItem {
 	}
 
 	public Character getSize() {
-		return Size;
+		return size;
 	}
 
 	public void setSize(Character size) {
-		Size = size;
+		this.size = size;
 	}
 
 	public Item getItem() {
@@ -73,16 +72,40 @@ public class OrderItem {
 		this.item = item;
 	}
 
-	public List<Item> getOrderToppingList() {
+	public List<OrderTopping> getOrderToppingList() {
 		return orderToppingList;
 	}
 
-	public void setOrderToppingList(List<Item> orderToppingList) {
+	public void setOrderToppingList(List<OrderTopping> orderToppingList) {
 		this.orderToppingList = orderToppingList;
 	}
 
-	// 後で実装
+	@Override
+	public String toString() {
+		return "OrderItem [id=" + id + ", item=" + item + ", itemId=" + itemId + ", orderId="
+				+ orderId + ", orderToppingList=" + orderToppingList + ", quantity=" + quantity
+				+ ", size=" + size + "]";
+	}
+
+	/**
+	 * 商品1種類のトッピングを含めた値段を返す
+	 *
+	 * @return 商品1種類のトッピングを含めた値段
+	 * @author Tetsuya Azami
+	 */
 	public int getSubTotal() {
-		return 0;
+		int itemPrice = 0;
+		int toppingPrice = 0;
+		for (OrderTopping orderTopping : getOrderToppingList()) {
+			if (getSize() == 'M') {
+				itemPrice = getItem().getPriceM();
+				toppingPrice += orderTopping.getTopping().getPriceM();
+			} else if (getSize() == 'L') {
+				itemPrice = getItem().getPriceL();
+				toppingPrice += orderTopping.getTopping().getPriceL();
+			}
+		}
+		int totalPrice = itemPrice * getQuantity() + toppingPrice;
+		return totalPrice;
 	}
 }
