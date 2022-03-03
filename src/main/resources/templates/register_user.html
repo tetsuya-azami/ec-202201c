@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja"xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -29,7 +29,7 @@
           "
         >
           <div class="well">
-            <form method="post" action="item_list_noodle.html">
+            <form method="post" action="item_list_noodle.html" th:action="@{/user/insert}"  th:object="${userForm}">
               <fieldset>
                 <legend>ユーザ登録</legend>
                 <div class="form-group">
@@ -37,7 +37,8 @@
                   ><label
                     class="control-label"
                     style="color: red"
-                    for="inputError"
+                    for="inputError" 
+                    th:errors="*{name}"
                     >名前を入力してください</label
                   >
                   <input
@@ -45,14 +46,22 @@
                     id="inputName"
                     class="form-control"
                     placeholder="Name"
+                    th:field="*{name}"
                   />
                 </div>
+                
                 <div class="form-group">
                   <label for="inputEmail">メールアドレス:</label
-                  ><label
+                  >
+                  <span th:if="${mailErrorMessage}" 
+                  th:text="${mailErrorMessage}"
+                  style="color: red"
+                  ></span>
+                  <label
                     class="control-label"
                     style="color: red"
                     for="inputError"
+                    th:errors="*{email}" 
                     >メールアドレスを入力してください</label
                   >
                   <input
@@ -60,6 +69,7 @@
                     id="inputEmail"
                     class="form-control"
                     placeholder="Email"
+                    th:field="*{email}"
                   />
                 </div>
                 <div class="form-group">
@@ -68,14 +78,16 @@
                     class="control-label"
                     style="color: red"
                     for="inputError"
+                    th:errors="*{zipcode}"
                     >郵便番号を入力してください</label
                   >
-                  <input type="button" value="住所検索" />
+                  <input type="button" value="住所検索" id="get_address_btn" />
                   <input
                     type="text"
                     id="inputZipcode"
                     class="form-control"
                     placeholder="Zipcode"
+                    th:field="*{zipcode}"
                   />
                 </div>
                 <div class="form-group">
@@ -84,6 +96,7 @@
                     class="control-label"
                     style="color: red"
                     for="inputError"
+                    th:errors="*{address}"
                     >住所を入力してください</label
                   >
                   <input
@@ -91,6 +104,7 @@
                     id="inputAddress"
                     class="form-control"
                     placeholder="Address"
+                    th:field="*{address}"
                   />
                 </div>
                 <div class="form-group">
@@ -99,6 +113,7 @@
                     class="control-label"
                     style="color: red"
                     for="inputError"
+                    th:errors="*{telephone}"
                     >電話番号を入力してください</label
                   >
                   <input
@@ -106,6 +121,7 @@
                     id="inputTel"
                     class="form-control"
                     placeholder="Tel"
+                    th:field="*{telephone}"
                   />
                 </div>
                 <div class="form-group">
@@ -114,6 +130,7 @@
                     class="control-label"
                     style="color: red"
                     for="inputError"
+                    th:errors="*{password}"
                     >パスワードを入力してください</label
                   >
                   <input
@@ -121,6 +138,7 @@
                     id="inputPassword"
                     class="form-control"
                     placeholder="Password"
+                    th:field="*{password}"
                   />
                 </div>
                 <div class="form-group">
@@ -131,6 +149,7 @@
                     class="control-label"
                     style="color: red"
                     for="inputError"
+                    id="mismatchMessage"
                     >確認用パスワードを入力してください</label
                   >
                   <input
@@ -141,7 +160,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary">登録</button>
+                  <button type="submit" id="btn" class="btn btn-primary">登録</button>
                   <button type="reset" class="btn btn-primary">クリア</button>
                 </div>
               </fieldset>
@@ -153,6 +172,7 @@
     <!-- end container -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/register_user.js}"></script>
     <script th:src="@{/js/common.js}"></script>
   </body>
 </html>
