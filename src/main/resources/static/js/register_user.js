@@ -21,7 +21,7 @@ $(function() {
 			url: 'http://zipcoda.net/api',
 			dataType: 'jsonp',
 			data: {
-				zipcode: $('#zipcode').val(),
+				zipcode: $('#inputZipcode').val(),
 			},
 			async: true,
 		})
