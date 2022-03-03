@@ -5,7 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 public class Account extends User {
-
 	private static final long serialVersionUID = 1L;
 
 	private final com.example.ec_202201c.domain.User user;
