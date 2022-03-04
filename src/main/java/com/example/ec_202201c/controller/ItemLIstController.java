@@ -19,11 +19,26 @@ public class ItemLIstController {
 	 */
 	@Autowired
 	private ItemListService itemListService;
-	
+
 	@RequestMapping("/list")
 	public String list(Model model) {
 		List<Item> itemList = itemListService.findAll();
 		model.addAttribute("itemList", itemList);
 		return "item_list_noodle";
+	}
+
+	@RequestMapping("/search")
+	public String searchName(String code, Model model) {
+		if(code.equals("")) {
+			return list(model);
+		}
+		List<Item> itemList = itemListService.findByLikeName(code);
+		if(itemList.isEmpty()) {
+			model.addAttribute("noName", "該当する商品がありません");
+			return list(model);
+		}else {
+			model.addAttribute("itemList", itemList);
+			return "item_list_noodle";
+		}
 	}
 }
