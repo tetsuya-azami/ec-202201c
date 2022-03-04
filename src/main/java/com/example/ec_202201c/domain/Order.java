@@ -165,11 +165,21 @@ public class Order {
 				+ ", userId=" + userId + "]";
 	}
 
+	/**
+	 * カート内商品合計金額に対する消費税を算出
+	 *
+	 * @param price カート内商品合計金額
+	 * @return カート内商品合計金額に対する消費税
+	 */
 	public int getTax(Integer price) {
 		return (int) (price * 0.1);
 	}
 
-	// 後で実装
+	/**
+	 * カート内商品合計金額を算出
+	 *
+	 * @return カート内商品合計金額
+	 */
 	public int getCalcTotalPrice() {
 		int totalPrice = 0;
 		for (OrderItem orderItem : getOrderItemList()) {

@@ -11,8 +11,19 @@ public class OrderConfirmService {
 	@Autowired
 	private OrderConfirmRepository orderConfirmRepository;
 
+	/**
+	 * ショッピングカートをユーザのidで1件取得
+	 *
+	 * @param userId ログインユーザのid
+	 * @return ログインユーザの注文確定前のショッピングカート
+	 * @author Tetsuya Azami
+	 */
 	public Order findShoppingCartByUserId(Integer userId) {
 		Order order = orderConfirmRepository.findShoppingCartByUserId(userId);
 		return order;
+	}
+
+	public void finishingOrder(Order order) {
+		orderConfirmRepository.finishingOrder(order);
 	}
 }
