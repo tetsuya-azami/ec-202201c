@@ -30,3 +30,9 @@ span#total-price {
 th {
   text-align: center;
 }
+
+div.warning{
+	border-color: #ff0000;
+	background-color: #ff0000;
+	margin-left: 5px;
+}
