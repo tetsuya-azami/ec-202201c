@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class CartListRepository {
 	private final ResultSetExtractor<Order> CART_LIST_ROW_MAPPER = (rs) -> {
@@ -30,6 +29,7 @@ public class CartListRepository {
 			int orderItemId = rs.getInt("oi_id");
 			if (orderItemId != preOrderItemId) {
 				orderItem = new OrderItem();
+
 				// orderItemドメインのフィールドであるorderToppingListを作ってorderItemにセット
 				orderToppingList = new ArrayList<>();
 				orderItem.setOrderToppingList(orderToppingList);
@@ -39,6 +39,7 @@ public class CartListRepository {
 				orderItem.setItem(item);
 
 				// orderItem数量、サイズ
+				orderItem.setId(rs.getInt("oi_id"));
 				orderItem.setQuantity(rs.getInt("oi_quantity"));
 				orderItem.setSize(rs.getString("oi_size").charAt(0));
 
@@ -108,4 +109,20 @@ public class CartListRepository {
 		return order;
 	}
 
+	/**
+	 * カート商品削除機能
+	 * 
+	 * @param 商品ID
+	 */
+	public void deleteItemById(int id) {
+		String sql = "DELETE FROM order_items WHERE id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
+	}
+
+	public void deleteToppingById(int id) {
+		String sql = "DELETE FROM order_toppings WHERE id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
+	}
 }

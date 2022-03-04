@@ -30,7 +30,8 @@
           ">
 				<h3 class="text-center">ショッピングカート</h3>
 				<p th:if=${#lists.isEmpty(order.orderItemList)} style="color: red">カートに商品がありません</p>
-				<table class="table table-striped item-list-table" th:unless=${#lists.isEmpty(order.orderItemList)}>
+				<table class="table table-striped item-list-table"
+					th:unless=${#lists.isEmpty(order.orderItemList)}>
 					<tbody>
 						<tr>
 							<th>
@@ -88,7 +89,12 @@
 							</td>
 							<td>
 								<div class="text-center">
-									<button type="submit" class="btn btn-primary">削除</button>
+									<form th:action="@{/cart/delete}" method="post">
+										<input type="hidden" name="itemId"
+											th:value="${orderItem.id}">
+										<button type="submit">削除</button>
+									</form>
+
 								</div>
 							</td>
 						</tr>
@@ -100,7 +106,8 @@
 
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
-				<div class="form-group text-center" th:unless=${#lists.isEmpty(order.orderItemList)}>
+				<div class="form-group text-center"
+					th:unless=${#lists.isEmpty(order.orderItemList)}>
 					<span id="total-price"
 						th:text="'消費税:' + ${#numbers.formatInteger(order.getTax(order.getCalcTotalPrice), 1, 'COMMA')} + '円'">消費税：8,000円</span><br />
 					<span id="total-price"
@@ -111,7 +118,8 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-offset-5 col-xs-3">
-				<div class="form-group" th:unless=${#lists.isEmpty(order.orderItemList)}>
+				<div class="form-group"
+					th:unless=${#lists.isEmpty(order.orderItemList)}>
 					<form action="order_confirm.html" th:action=@{/order/confirm}>
 						<input class="form-control btn btn-warning btn-block"
 							type="submit" value="注文に進む" />

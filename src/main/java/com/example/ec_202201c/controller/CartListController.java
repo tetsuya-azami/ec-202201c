@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ec_202201c.domain.Order;
-import com.example.ec_202201c.domain.User;
 import com.example.ec_202201c.service.CartListService;
 
 @Controller
@@ -20,9 +19,19 @@ public class CartListController {
 	 */
 	@RequestMapping("/list")
 	public String list(Integer useerId,Model model) {
-		Order order = cartListService.findShoppingCartByUserId(2);
+		Order order = cartListService.findShoppingCartByUserId(1);
 		model.addAttribute("order", order);
 		System.out.println(order);
 		return "cart_list";
 	}
+	
+	
+	@RequestMapping("/delete")
+	public String deleteById(Integer itemId) {
+		cartListService.deleteById(itemId);
+		System.out.println(itemId);
+		return "redirect:/cart/list";
+	}
+	
+	
 }

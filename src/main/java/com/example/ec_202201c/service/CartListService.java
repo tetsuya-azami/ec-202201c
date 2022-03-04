@@ -16,4 +16,10 @@ public class CartListService {
 		Order order = cartListRepository.findShoppingCartByUserId(userId);
 		return order;
 	}
+	
+	public void deleteById(int itemId) {
+		cartListRepository.deleteToppingById(itemId);
+		cartListRepository.deleteItemById(itemId);
+	}
+	
 }
