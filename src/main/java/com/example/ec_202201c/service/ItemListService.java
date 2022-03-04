@@ -15,4 +15,8 @@ public class ItemListService {
 	public List<Item> findAll(){
 		return itemListRepository.findAll();
 	}
+	
+	public List<Item> findByLikeName(String name){
+		return itemListRepository.findByLikeName(name);
+	}
 }

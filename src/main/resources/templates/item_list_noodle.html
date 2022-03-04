@@ -33,7 +33,7 @@
               <div class="panel-title">商品を検索する</div>
             </div>
             <div class="panel-body">
-              <form method="post" action="#" class="form-horizontal">
+              <form method="post" th:action="@{/item/search}" class="form-horizontal">
                 <div class="form-group">
                   <label for="code" class="control-label col-sm-2"
                     >商品名</label
@@ -41,8 +41,8 @@
                   <div class="col-sm-9">
                     <input
                       type="text"
-                      name="code"
-                      id="code"
+                      name="inputItemName"
+                      id="inputItemName"
                       class="form-control input-sm"
                     />
                   </div>
@@ -60,6 +60,8 @@
           </div>
         </div>
       </div>
+      
+      <div class="warning" th:if="${noName}" th:text="${noName}">dummy</div>
 
       <!-- table -->
       <div class="row">
