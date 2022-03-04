@@ -187,8 +187,14 @@
                       th:errors="*{destinationZipCode}"
                       style="color: red"
                     ></label>
-                    <input type="text" th:field="*{destinationZipCode}" />
-                    &nbsp;&nbsp;<button>住所検索</button>
+                    <input
+                      type="text"
+                      id="inputZipcode"
+                      th:field="*{destinationZipCode}"
+                    />
+                    &nbsp;&nbsp;<button id="getAddressBtn" type="button">
+                      住所検索
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -197,11 +203,15 @@
                   </td>
                   <td>
                     <label
-                      for="destinationAddress"
+                      for="address"
                       th:errors="*{destinationAddress}"
                       style="color: red"
                     ></label>
-                    <input type="text" th:field="*{destinationAddress}" />
+                    <input
+                      type="text"
+                      id="address"
+                      th:field="*{destinationAddress}"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -369,7 +379,8 @@
     </div>
     <!-- end container -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/addressSearch.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/common.js}"></script>
   </body>
 </html>

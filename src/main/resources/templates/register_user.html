@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja"xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -29,7 +29,12 @@
           "
         >
           <div class="well">
-            <form method="post" action="item_list_noodle.html" th:action="@{/user/insert}"  th:object="${userForm}">
+            <form
+              method="post"
+              action="item_list_noodle.html"
+              th:action="@{/user/insert}"
+              th:object="${userForm}"
+            >
               <fieldset>
                 <legend>ユーザ登録</legend>
                 <div class="form-group">
@@ -37,7 +42,7 @@
                   ><label
                     class="control-label"
                     style="color: red"
-                    for="inputError" 
+                    for="inputError"
                     th:errors="*{name}"
                     >名前を入力してください</label
                   >
@@ -49,19 +54,19 @@
                     th:field="*{name}"
                   />
                 </div>
-                
+
                 <div class="form-group">
-                  <label for="inputEmail">メールアドレス:</label
-                  >
-                  <span th:if="${mailErrorMessage}" 
-                  th:text="${mailErrorMessage}"
-                  style="color: red"
+                  <label for="inputEmail">メールアドレス:</label>
+                  <span
+                    th:if="${mailErrorMessage}"
+                    th:text="${mailErrorMessage}"
+                    style="color: red"
                   ></span>
                   <label
                     class="control-label"
                     style="color: red"
                     for="inputError"
-                    th:errors="*{email}" 
+                    th:errors="*{email}"
                     >メールアドレスを入力してください</label
                   >
                   <input
@@ -81,7 +86,7 @@
                     th:errors="*{zipcode}"
                     >郵便番号を入力してください</label
                   >
-                  <input type="button" value="住所検索" id="get_address_btn" />
+                  <input type="button" value="住所検索" id="getAddressBtn" />
                   <input
                     type="text"
                     id="inputZipcode"
@@ -101,7 +106,6 @@
                   >
                   <input
                     type="text"
-                    id="inputAddress"
                     class="form-control"
                     placeholder="Address"
                     th:field="*{address}"
@@ -160,7 +164,9 @@
                   />
                 </div>
                 <div class="form-group">
-                  <button type="submit" id="btn" class="btn btn-primary">登録</button>
+                  <button type="submit" id="btn" class="btn btn-primary">
+                    登録
+                  </button>
                   <button type="reset" class="btn btn-primary">クリア</button>
                 </div>
               </fieldset>
@@ -173,6 +179,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <script src="../static/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/addressSearch.js}"></script>
     <script th:src="@{/js/register_user.js}"></script>
     <script th:src="@{/js/common.js}"></script>
   </body>
