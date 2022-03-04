@@ -28,11 +28,11 @@ public class ItemLIstController {
 	}
 
 	@RequestMapping("/search")
-	public String searchName(String code, Model model) {
-		if(code.equals("")) {
+	public String searchName(String inputItemName, Model model) {
+		if(inputItemName.equals("")) {
 			return list(model);
 		}
-		List<Item> itemList = itemListService.findByLikeName(code);
+		List<Item> itemList = itemListService.findByLikeName(inputItemName);
 		if(itemList.isEmpty()) {
 			model.addAttribute("noName", "該当する商品がありません");
 			return list(model);
