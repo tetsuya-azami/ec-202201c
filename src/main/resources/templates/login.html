@@ -29,9 +29,9 @@
         >
           <div class="well">
             <form
-              method="post"
               action="item_list_noodle.html"
               th:action="@{/login}"
+              method="post"
             >
               <fieldset>
                 <legend>ログイン</legend>
@@ -84,7 +84,8 @@
     </div>
     <!-- end container -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <!-- SpringSecurity1回目ログイン時に/js/bootstrap.min.jsにアクセスされるようになってしまうため、コメントアウトしました -->
+    <!-- <script src="../static/js/bootstrap.min.js"></script> -->
     <script th:src="@{/js/common.js}"></script>
   </body>
 </html>
