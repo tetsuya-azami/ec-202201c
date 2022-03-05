@@ -31,8 +31,13 @@ th {
   text-align: center;
 }
 
-div.warning{
-	border-color: #ff0000;
-	background-color: #ff0000;
-	margin-left: 5px;
+div.warning {
+  border-color: #ff0000;
+  background-color: #ff0000;
+  margin-left: 5px;
+}
+
+.searchResult {
+  font-weight: bold;
+  margin-bottom: 16px;
 }

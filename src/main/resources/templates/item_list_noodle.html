@@ -33,16 +33,21 @@
               <div class="panel-title">商品を検索する</div>
             </div>
             <div class="panel-body">
-              <form method="post" th:action="@{/item/search}" class="form-horizontal">
+              <form
+                class="form-horizontal"
+                th:action="@{/item/search}"
+                method="post"
+                th:object="${itemSearchForm}"
+              >
                 <div class="form-group">
-                  <label for="code" class="control-label col-sm-2"
+                  <label for="name" class="control-label col-sm-2"
                     >商品名</label
                   >
                   <div class="col-sm-9">
                     <input
+                      id="fuzzySearchName"
                       type="text"
-                      name="inputItemName"
-                      id="inputItemName"
+                      th:field="*{name}"
                       class="form-control input-sm"
                     />
                   </div>
@@ -51,7 +56,7 @@
                   <button type="submit" value="検索" class="btn btn-primary">
                     検索
                   </button>
-                  <button type="reset" value="クリア" class="btn btn-default">
+                  <button id="resetButton" type="button" value="クリア" class="btn btn-default">
                     クリア
                   </button>
                 </div>
@@ -60,8 +65,19 @@
           </div>
         </div>
       </div>
-      
-      <div class="warning" th:if="${noName}" th:text="${noName}">dummy</div>
+
+      <!-- 検索結果section -->
+      <section th:object="${itemSearchForm}">
+        <div
+          class="text-center searchResult alert alert-danger"
+          th:if="${#fields.hasErrors('name')}"
+        >
+          <span th:errors="*{name}">該当商品なし</span>
+        </div>
+        <div th:if="${ResultByFuzzySearch}" class="text-center searchResult">
+          <span th:text="${ResultByFuzzySearch}">検索結果は〇〇件です</span>
+        </div>
+      </section>
 
       <!-- table -->
       <div class="row">
@@ -77,34 +93,39 @@
           "
         >
           <table class="table table-striped item-list-table">
-            <tbody>
-            	 <div th:each="item,status : ${itemList}">
-            	 <div th:if="${status.index % 3 == 0}"><tr></div>
-                          		
-               			 <th >
-                			  <a href="item_detail.html" th:href="@{'/item/detail?id=' + ${item.id}}">
-                			  <img
-                    			  	src="../static/img_noodle/1.jpg"
-                 				  	th:src="${'/img_noodle/' + item.imagePath}"
-                      				class="img-responsive img-rounded item-img-center"
-                      				width="200"
-                      				height="600"
-                    			/> </a
-                  				><br />
-                 				<a href="item_detail.html" th:href="@{'/item/detail?id=' + ${item.id}}">
-									<span th:text="${item.name}">とんこつラーメン</span>
-				　　				</a><br />
-                 				<span class="price">&nbsp;М&nbsp;</span
-                  				><span th:text="${item.priceM}">&nbsp;&nbsp;1,380円</span><br />
-                 				 <span class="price">&nbsp;Ｌ&nbsp;</span
-                  				><span th:text="${item.priceL}">&nbsp;&nbsp;2,380円</span><br />
-                		</th>
-                	<div th:if="${status.index % 3 ==2}"></tr></div>
-              		<div th:if="${status.last}">
-              			<div th:if="${status.index % 3 == 1}"></tr></div>
-              			<div th:if="${status.index % 3 == 0}"></tr></div>
-              		</div>
-              			
+             <tbody>
+              <div th:each="item,status : ${itemList}">
+                <div th:if="${status.index % 3 == 0}"><tr></div>
+                <th>
+                  <a
+                    href="item_detail.html"
+                    th:href="@{'/item/detail?id='} + ${item.id}"
+                  >
+                    <img
+                      src="../static/img_noodle/1.jpg"
+                      th:src="@{/img_noodle/} + ${item.imagePath}"
+                      class="img-responsive img-rounded item-img-center"
+                      width="200"
+                      height="600"
+                    /> </a
+                  ><br />
+                  <a
+                    href="item_detail.html"
+                    th:href="@{/item/detail?id=} + ${item.id}"
+                  >
+                    <span th:text="${item.name}">とんこつラーメン</span> </a
+                  ><br />
+                  <span class="price">&nbsp;М&nbsp;</span>
+                  <span th:text="${item.priceM}">&nbsp;&nbsp;1,380円</span
+                  ><br />
+                  <span class="price">&nbsp;Ｌ&nbsp;</span>
+                  <span th:text="${item.priceL}">&nbsp;&nbsp;2,380円</span
+                  ><br />
+                </th>
+                <div th:if="${status.index % 3 == 2}"></tr></div>
+                <div th:if="${status.last}">
+                  <span th:unless="${status.index % 3 == 2}"></tr></span>
+                </div>
               </div>
             </tbody>
           </table>
@@ -113,7 +134,10 @@
     </div>
     <!-- end container -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <script
+      src="../static/js/bootstrap.min.js"
+      th:src="@{//js/bootstrap.min.js}"
+    ></script>
     <script th:src="@{/js/common.js}"></script>
   </body>
 </html>
