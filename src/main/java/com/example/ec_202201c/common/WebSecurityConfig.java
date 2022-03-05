@@ -28,8 +28,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 認可に関する設定
-		http.authorizeRequests().antMatchers("/", "/user/toInsert", "/user/insert").permitAll()
-				.anyRequest().authenticated();
+		// http.authorizeRequests().antMatchers("/", "/user/toInsert", "/user/insert").permitAll()
+		// .anyRequest().authenticated();
+
+		// 一時的に全てのリクエストを許可
+		http.authorizeRequests().anyRequest().permitAll();
 
 		// ログインに関する設定
 		http.formLogin().loginPage("/").loginProcessingUrl("/login").failureUrl("/?error=true")

@@ -14,7 +14,6 @@ public class LoginController {
 	@RequestMapping("/")
 	public String login(String error, Model model) {
 		if (error != null) {
-			System.out.println(error);
 			model.addAttribute("errorMessage", "メールアドレスかパスワードが間違っています");
 		}
 		return "login";
