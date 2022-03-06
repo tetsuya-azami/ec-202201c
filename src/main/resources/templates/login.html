@@ -35,9 +35,9 @@
             >
               <fieldset>
                 <legend>ログイン</legend>
-                <div th:if="${errorMessage} != null">
+                <div th:if="${loginErrorMessage} != null">
                   <label
-                    th:text="${errorMessage}"
+                    th:text="${loginErrorMessage}"
                     class="control-label"
                     style="color: red"
                     for="inputEmail"

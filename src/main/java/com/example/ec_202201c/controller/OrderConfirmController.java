@@ -1,12 +1,13 @@
 package com.example.ec_202201c.controller;
 
 import java.text.ParseException;
+import com.example.ec_202201c.domain.Account;
 import com.example.ec_202201c.domain.Order;
-import com.example.ec_202201c.domain.User;
 import com.example.ec_202201c.form.OrderForm;
 import com.example.ec_202201c.service.OrderConfirmService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,8 +32,8 @@ public class OrderConfirmController {
 	 * @return 注文確認画面を表示
 	 */
 	@RequestMapping("/confirm")
-	public String confirm(Model model) {
-		Order order = orderConfirmService.findShoppingCartByUserId(1);
+	public String confirm(@AuthenticationPrincipal Account account, Model model) {
+		Order order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
 		if (order.getOrderItemList().isEmpty()) {
 			return "redirect:/cart/list";
 		}
@@ -48,11 +49,12 @@ public class OrderConfirmController {
 	 * @return 注文確定画面
 	 */
 	@RequestMapping("/finishing")
-	public String finishing(@Validated OrderForm orderForm, BindingResult result, Model model) {
+	public String finishing(@Validated OrderForm orderForm, BindingResult result,
+			@AuthenticationPrincipal Account account, Model model) {
 		if (result.hasErrors()) {
-			return confirm(model);
+			return confirm(account, model);
 		}
-		Order order = orderConfirmService.findShoppingCartByUserId(1);
+		Order order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
 
 		// formからorderオブジェクトへの詰め替え
 		BeanUtils.copyProperties(orderForm, order);
@@ -62,13 +64,10 @@ public class OrderConfirmController {
 			order.setDeliveryTime(orderForm.getOrderDeliveryTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return confirm(model);
+			return confirm(account, model);
 		}
 		// orderオブジェクトにuser情報詰める
-		User user = new User();
-		user.setId(1);
-		order.setUser(user);
-
+		order.setUser(account.getUser());
 		orderConfirmService.finishingOrder(order);
 		return "redirect:/order/finished";
 	}
