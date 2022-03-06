@@ -49,11 +49,9 @@ public class OrderConfirmController {
 	 */
 	@RequestMapping("/finishing")
 	public String finishing(@Validated OrderForm orderForm, BindingResult result, Model model) {
-		System.out.println("エラー前");
 		if (result.hasErrors()) {
 			return confirm(model);
 		}
-		System.out.println("エラー後");
 		Order order = orderConfirmService.findShoppingCartByUserId(1);
 
 		// formからorderオブジェクトへの詰め替え
