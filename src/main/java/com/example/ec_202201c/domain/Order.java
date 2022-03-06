@@ -181,10 +181,7 @@ public class Order {
 	 * @return カート内商品合計金額
 	 */
 	public int getCalcTotalPrice() {
-		int totalPrice = 0;
-		for (OrderItem orderItem : getOrderItemList()) {
-			totalPrice += orderItem.getSubTotal();
-		}
+		int totalPrice = getOrderItemList().stream().mapToInt(item -> item.getSubTotal()).sum();
 		return totalPrice;
 	}
 }
