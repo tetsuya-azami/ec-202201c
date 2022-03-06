@@ -31,6 +31,7 @@
 				<h3 class="text-center">ショッピングカート</h3>
 				<div class="messages text-center">
 					<label th:text="${deleteSuccess}" style="color: green;"></label><br>
+					<label th:text="${deleteFailure}" style="color: red;"></label><br>
 					<label th:if=${#lists.isEmpty(order.orderItemList)} style="color: red" class="text-center">カートに商品がありません</label>
 				</div>
 				<table class="table table-striped item-list-table"
