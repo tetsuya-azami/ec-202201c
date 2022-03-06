@@ -110,19 +110,24 @@ public class CartListRepository {
 	}
 
 	/**
-	 * カート商品削除機能
-	 * 
+	 * カート内商品、カート内トッピング削除機能
+	 *
 	 * @param 商品ID
 	 */
-	public void deleteItemById(int id) {
-		String sql = "DELETE FROM order_items WHERE id = :id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-		template.update(sql, param);
-	}
-
-	public void deleteToppingById(int id) {
-		String sql = "DELETE FROM order_toppings WHERE id = :id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-		template.update(sql, param);
+	public void deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
+		StringBuilder sql = new StringBuilder();
+		// WITH句を用いて削除ボタンが押された注文商品とそれに紐づくトッピングを削除
+		sql.append("WITH deleted_order_items_id AS( ");
+		sql.append("DELETE FROM order_items ");
+		sql.append("WHERE id = :orderItemId ");
+		sql.append("AND order_id IN ");
+		sql.append("(SELECT id FROM orders WHERE user_id = :userId AND status = 0) ");
+		sql.append("RETURNING id ");
+		sql.append(")");
+		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN ");
+		sql.append("(SELECT id FROM deleted_order_items_id);");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId)
+				.addValue("userId", userId);
+		template.update(sql.toString(), param);
 	}
 }

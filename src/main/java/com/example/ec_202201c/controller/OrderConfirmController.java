@@ -34,7 +34,6 @@ public class OrderConfirmController {
 	public String confirm(Model model) {
 		Order order = orderConfirmService.findShoppingCartByUserId(1);
 		if (order.getOrderItemList().isEmpty()) {
-			// ショッピングカート一覧にエラーメッセージを表示(後で実装)
 			return "redirect:/cart/list";
 		}
 		model.addAttribute("order", order);
