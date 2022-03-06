@@ -12,15 +12,18 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class OrderForm {
+	/** 宛先名 */
 	@NotBlank
 	@Size(min = 1, max = 128)
 	private String destinationName;
 
+	/** 宛先メールアドレス */
 	@NotBlank
 	@Size(min = 1, max = 128)
 	@Email
 	private String destinationEmail;
 
+	/** 宛先郵便番号 */
 	@NotBlank
 	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$")
 	private String destinationZipCode;
@@ -29,18 +32,22 @@ public class OrderForm {
 	@Size(min = 1, max = 300)
 	private String destinationAddress;
 
+	/** 宛先電話番号 */
 	@NotBlank
 	@Pattern(regexp = "^0[0-9]{1,4}-[0-9]{1,4}-[0-9]{4}$")
 	private String destinationTel;
 
+	/** 配達時間(年月日) */
 	@NotBlank
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String deliveryDate;
 
+	/** 配達時間(時間) */
 	@NotBlank
 	@Pattern(regexp = "^[0-8]$")
 	private String deliveryTime;
 
+	/** 支払い方法 */
 	@NotBlank
 	@Pattern(regexp = "^[1-2]$")
 	private String paymentMethod;
