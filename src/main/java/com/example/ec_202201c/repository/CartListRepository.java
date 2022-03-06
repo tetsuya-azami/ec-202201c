@@ -114,7 +114,7 @@ public class CartListRepository {
 	 *
 	 * @param 商品ID
 	 */
-	public void deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
+	public int deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
 		StringBuilder sql = new StringBuilder();
 		// WITH句を用いて削除ボタンが押された注文商品とそれに紐づくトッピングを削除
 		sql.append("WITH deleted_order_items_id AS( ");
@@ -128,6 +128,7 @@ public class CartListRepository {
 		sql.append("(SELECT id FROM deleted_order_items_id);");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId)
 				.addValue("userId", userId);
-		template.update(sql.toString(), param);
+		int deletedCount = template.update(sql.toString(), param);
+		return deletedCount;
 	}
 }
