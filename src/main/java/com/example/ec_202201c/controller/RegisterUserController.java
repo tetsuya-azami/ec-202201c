@@ -68,10 +68,10 @@ public class RegisterUserController {
 	public String create() {
 		// 管理者ユーザ/
 		User adminRoleUser = new User("rakunoo", "rakunoo@example.com", "rakunoo", "111-1111",
-				"テスト住所", "111-1111", 1);
+				"rakunoo住所", "011-1111-1111", 1);
 		// 一般ユーザ
-		User userRoleUser = new User("テストユーザ", "test@test.co.jp", "morimori", "000-0000", "テスト住所",
-				"000-0000-00000", 2);
+		User userRoleUser = new User("テストユーザ", "test@test.co.jp", "morimori", "222-2222", "テスト住所",
+				"022-2222-2222", 2);
 		userService.insert(adminRoleUser);
 		userService.insert(userRoleUser);
 		return "redirect:/";

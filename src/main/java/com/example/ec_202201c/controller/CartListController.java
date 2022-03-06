@@ -35,17 +35,11 @@ public class CartListController {
 	@RequestMapping("/delete")
 	public String deleteById(@AuthenticationPrincipal Account account, Integer orderItemId,
 			RedirectAttributes redirectAttributes) {
-		int deletedCount = cartListService.deleteOrderItemsAndOrderToppingsByOrderItemId(
-				orderItemId, account.getUser().getId());
+		cartListService.deleteOrderItemsAndOrderToppingsByOrderItemId(orderItemId,
+				account.getUser().getId());
 
-		if (deletedCount <= 0) {
-			redirectAttributes.addFlashAttribute("deleteFailure", messageSource
-					.getMessage("deleteFailure", new String[] {}, Locale.getDefault()));
-		} else {
-			redirectAttributes.addFlashAttribute("deleteSuccess", messageSource
-					.getMessage("deleteSuccess", new String[] {}, Locale.getDefault()));
-		}
+		redirectAttributes.addFlashAttribute("deleteSuccess",
+				messageSource.getMessage("deleteSuccess", new String[] {}, Locale.getDefault()));
 		return "redirect:/cart/list";
 	}
-
 }
