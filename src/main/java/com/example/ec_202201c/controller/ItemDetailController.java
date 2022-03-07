@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.ec_202201c.domain.Account;
 import com.example.ec_202201c.domain.Item;
 import com.example.ec_202201c.domain.Order;
 import com.example.ec_202201c.domain.OrderItem;
@@ -22,6 +24,9 @@ import com.example.ec_202201c.service.ItemDetailService;
 @Controller
 @RequestMapping("/item")
 public class ItemDetailController {
+	
+	private final Integer TOPPING_MSIZE_PRICE = 200;
+	private final Integer TOPPING_LSIZE_PRICE = 300;
 
 	@Autowired
 	private ItemDetailService itemDetailService;
@@ -32,7 +37,7 @@ public class ItemDetailController {
 	}
 
 	/**
-	 * @author
+	 * @author hashimoto
 	 * @return 商品詳細ページを表示
 	 */
 	@RequestMapping("/detail")
@@ -40,7 +45,6 @@ public class ItemDetailController {
 		Item item = itemDetailService.showDetail(id);
 		
 		model.addAttribute("item", item);
-		model.addAttribute("id", id);
 
 		List<Topping> toppingList = itemDetailService.findAll();
 		model.addAttribute("toppingList", toppingList);
@@ -49,54 +53,54 @@ public class ItemDetailController {
 	}
 
 	@RequestMapping("/save")
-	public String addOrderItemToCart(InsertOrderItemForm orderItemForm, Model model) {
+	public String addOrderItemToCart(InsertOrderItemForm orderItemForm,Integer itemId,@AuthenticationPrincipal Account account, Model model) {
+		
 		Order order = itemDetailService.findShoppingCartByUserId(100);
+		Item item = itemDetailService.showDetail(itemId);
+		
 		if (order.getId() == null) {
-			System.out.println(orderItemForm.getSize());
-			System.out.println(orderItemForm.getQuantity());
-			System.out.println(orderItemForm.getItemId());
-			System.out.println(orderItemForm.getOrderItemId());
-			System.out.println(orderItemForm.getToppingId());
+			
+			System.out.println(item);
+			/* 注文がnullの場合orderのインスタンスを生成 */
+			Order shoppingCart = new Order();
+			shoppingCart.setUserId(1000);
 
-			Item item = new Item();
+			Item inItem = new Item();
 			Topping topping = new Topping();
 			
+			/* サイズによって金額の変更 */
 			if (orderItemForm.getSize() == 'M') {
-				item.setPriceM(680);
-				topping.setPriceM(200);
+				inItem.setPriceM(item.getPriceM());
+				topping.setPriceM(TOPPING_MSIZE_PRICE);
 			} else if (orderItemForm.getSize() == 'L') {
-				item.setPriceL(800);
-				topping.setPriceL(300);
+				inItem.setPriceL(item.getPriceL());
+				topping.setPriceL(TOPPING_LSIZE_PRICE);
 			}
 			
 			
-//		    Topping topping = new Topping();
-//		    topping.setPriceM(200);
-
 			List<OrderTopping> orderToppingList = new ArrayList<>();
 
 			OrderTopping orderTopping = new OrderTopping();
 			orderTopping.setTopping(topping);
-
 			orderToppingList.add(orderTopping);
-
-			OrderItem orderItem = new OrderItem();
-		    orderItem.setItem(item);
-			orderItem.setItemId(orderItemForm.getItemId());
-			orderItem.setOrderId(1);
-			orderItem.setQuantity(orderItemForm.getQuantity());
-			orderItem.setSize(orderItemForm.getSize());
-
-			orderItem.setOrderToppingList(orderToppingList);
-
-			order.setUserId(1);
-//			order.setStatus(0);
-			order.setTotalPrice(orderItem.getSubTotal());
-
-//			orderTopping.setOrderItemId(6);
 			orderTopping.setToppingId(orderItemForm.getToppingId());
 
-			itemDetailService.OrderInsert(order, orderItem, orderTopping);
+            //orderItemにインサート
+			OrderItem orderItem = new OrderItem();
+		    orderItem.setItem(item);
+			orderItem.setItemId(itemId);
+			
+			orderItem.setQuantity(orderItemForm.getQuantity());
+			orderItem.setSize(orderItemForm.getSize());
+			orderItem.setOrderToppingList(orderToppingList);
+			
+			//注文に合計金額をインサート
+			shoppingCart.setTotalPrice(orderItem.getSubTotal());
+
+			
+			System.out.println("コントローラーのインサートの直前");
+			System.out.println(order.getUserId());
+			itemDetailService.OrderInsert(shoppingCart, orderItem, orderTopping);
 
 		} else {
 			System.out.println("order;" + order);
@@ -105,8 +109,7 @@ public class ItemDetailController {
 
 			order.setTotalPrice(order.getCalcTotalPrice());
 
-			orderItem.setItemId(orderItemForm.getItemId());
-			orderItem.setOrderId(orderItemForm.getOrderId());
+			orderItem.setItemId(itemId);
 			orderItem.setQuantity(orderItemForm.getQuantity());
 			orderItem.setSize(orderItemForm.getSize());
 
@@ -115,6 +118,6 @@ public class ItemDetailController {
 			itemDetailService.ordersUpdate(order, orderItem, orderTopping);
 
 		}
-		return "redrect:/cart/list";
+		return "redirect:/cart/list";
 	}
 }

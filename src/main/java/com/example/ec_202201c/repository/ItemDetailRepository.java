@@ -29,12 +29,12 @@ public class ItemDetailRepository {
 
 	private static final RowMapper<Topping> TOPPING_ROW_MAPPER = new BeanPropertyRowMapper<>(Topping.class);
 	
-	private static final RowMapper<OrderItem> OREDERITEM_ROW_MAPPER = (rs, i) ->{
-		OrderItem orderItem = new OrderItem();
-		orderItem.setId(rs.getInt("id"));
-		
-		return orderItem;
-	};
+//	private static final RowMapper<OrderItem> OREDERITEM_ROW_MAPPER = (rs, i) ->{
+//		OrderItem orderItem = new OrderItem();
+//		orderItem.setId(rs.getInt("id"));
+//		
+//		return orderItem;
+//	};
 
 	private final ResultSetExtractor<Order> ORDER_CONDIRM_ROW_MAPPER = (rs) -> {
 		Order order = new Order();
@@ -98,7 +98,7 @@ public class ItemDetailRepository {
 	 * @return
 	 */
 	public Item load(Integer id) {
-		String sql = "SELECT name, description, price_m, price_l, image_path FROM items WHERE id =:id";
+		String sql = "SELECT id, name, description, price_m, price_l, image_path FROM items WHERE id =:id";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 
@@ -154,6 +154,14 @@ public class ItemDetailRepository {
 	}
 
 	public void ordersInsert(Order order) {
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println(order.getUserId());
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		String insertSql = "INSERT INTO orders( user_id,  status,  total_price)"
 				+ "                      VALUES(:userId, 0, :totalPrice)";
@@ -161,7 +169,7 @@ public class ItemDetailRepository {
 	}
 
 	public void OrderItemInsert(OrderItem orderItem) {
-		String sql = "INSERT INTO order_items( item_id,  order_id,  quantity,  size)"
+		String sql = "INSERT INTO order_items( item_id, order_id, quantity,  size)"
 				+ " values                   (:itemId, :orderId, :quantity, :size)";
 
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
@@ -178,6 +186,12 @@ public class ItemDetailRepository {
 	
 	public int findByItemId() {
 		String sql = "SELECT MAX(id) id from order_items";
+		
+		return template.queryForObject(sql,new MapSqlParameterSource(), Integer.class);
+	}
+	
+	public int findByOrderId() {
+		String sql = "SELECT MAX(id) id from orders";
 		
 		return template.queryForObject(sql,new MapSqlParameterSource(), Integer.class);
 	}

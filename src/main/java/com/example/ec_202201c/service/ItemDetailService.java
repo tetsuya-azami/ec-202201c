@@ -35,14 +35,20 @@ public class ItemDetailService {
 	@Transactional
 	public synchronized void ordersUpdate(Order order, OrderItem orderItem, OrderTopping orderTopping) {
 		itemDetailRepository.ordersUpdate(order);
+		int orderId = itemDetailRepository.findByOrderId();
+		orderItem.setOrderId(orderId);
 		itemDetailRepository.OrderItemInsert(orderItem);
 		int id = itemDetailRepository.findByItemId();
+		orderTopping.setOrderItemId(id);
 		itemDetailRepository.OrderToppingInsert(orderTopping);
 	}
 
 	@Transactional
 	public synchronized void OrderInsert(Order order, OrderItem orderItem, OrderTopping orderTopping) {
+		System.out.println(order.getUserId());
 		itemDetailRepository.ordersInsert(order);
+		int orderId = itemDetailRepository.findByOrderId();
+		orderItem.setOrderId(orderId);
 		itemDetailRepository.OrderItemInsert(orderItem);
 		int id = itemDetailRepository.findByItemId();
 		orderTopping.setOrderItemId(id);

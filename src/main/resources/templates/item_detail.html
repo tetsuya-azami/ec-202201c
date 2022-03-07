@@ -16,7 +16,7 @@
 	<div class="container">
 		<span th:insert="fragment_part::frag_header"></span>
 
-		<form action="cart_list.html" th:action="@{/item/save}"
+		<form action="cart_list.html" th:action="@{/item/save?itemId=} + ${item.id}"
 			th:object="${insertOrderItemForm}" method="post">
 			<div class="row">
 				<div class="col-xs-offset-2 col-xs-8">
@@ -44,15 +44,15 @@
 							<div class="form-group">
 								<div class="row">
 									<div class="col-sm-12">
-										<label for="inputResponsibleCompany">サイズ</label>
+										<label for="size">サイズ</label>
 									</div>
 									<div class="col-sm-12">
 										<label class="radio-inline"> <input type="radio"
-											name="responsibleCompany" th:value="M"
-											th:field="*{size}" checked="checked"/> <span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+											name="size" th:value="M"
+											th:field="*{size}"/> <span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
 											th:text="${item.priceM}"></span>
 										</label> <label class="radio-inline"> <input type="radio"
-											name="responsibleCompany" th:value="L" th:field="*{size}" />
+											name="size" th:value="L" th:field="*{size}" />
 											<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
 											th:text="${item.priceL}"></span>
 										</label>
@@ -120,8 +120,6 @@
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-3">
 							<div class="form-group">
-							<input name="itemId" type="" th:value="${id}" th:field="*{itemId}">
-
 								<p>
 									<input class="form-control btn btn-warning btn-block"
 										type="submit" value="カートに入れる" />
