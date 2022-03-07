@@ -44,3 +44,12 @@ div.warning {
   font-weight: bold;
   margin-bottom: 16px;
 }
+.navigation2 {
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+.pagination2 {
+  margin: 20px auto !important;
+}
