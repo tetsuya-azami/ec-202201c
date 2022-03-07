@@ -14,10 +14,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-/** @author Tetsuya Azami */
 @Repository
-public class OrderConfirmRepository {
-	private final ResultSetExtractor<Order> ORDER_CONDIRM_ROW_MAPPER = (rs) -> {
+public class CartListRepository {
+	private final ResultSetExtractor<Order> CART_LIST_ROW_MAPPER = (rs) -> {
 		Order order = new Order();
 		// orderドメインのフィールドであるorderItemListを作ってorderにセット
 		List<OrderItem> orderItemList = new ArrayList<>();
@@ -30,6 +29,7 @@ public class OrderConfirmRepository {
 			int orderItemId = rs.getInt("oi_id");
 			if (orderItemId != preOrderItemId) {
 				orderItem = new OrderItem();
+
 				// orderItemドメインのフィールドであるorderToppingListを作ってorderItemにセット
 				orderToppingList = new ArrayList<>();
 				orderItem.setOrderToppingList(orderToppingList);
@@ -39,6 +39,7 @@ public class OrderConfirmRepository {
 				orderItem.setItem(item);
 
 				// orderItem数量、サイズ
+				orderItem.setId(rs.getInt("oi_id"));
 				orderItem.setQuantity(rs.getInt("oi_quantity"));
 				orderItem.setSize(rs.getString("oi_size").charAt(0));
 
@@ -104,39 +105,29 @@ public class OrderConfirmRepository {
 		sql.append("WHERE o.user_id = :userId AND o.status = 0;");
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-		Order order = template.query(sql.toString(), param, ORDER_CONDIRM_ROW_MAPPER);
+		Order order = template.query(sql.toString(), param, CART_LIST_ROW_MAPPER);
 		return order;
 	}
 
-	public void finishingOrder(Order order) {
+	/**
+	 * カート内商品、カート内トッピング削除機能
+	 *
+	 * @param 商品ID
+	 */
+	public void deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE orders SET ");
-		if (order.getPaymentMethod() == 1) {
-			sql.append("status = 1, ");
-		} else if (order.getPaymentMethod() == 2) {
-			sql.append("status = 2, ");
-		}
-		sql.append("order_date = CURRENT_DATE, ");
-		sql.append("destination_name = :destinationName, ");
-		sql.append("destination_email = :destinationEmail, ");
-		sql.append("destination_zipcode = :destinationZipCode, ");
-		sql.append("destination_address = :destinationAddress, ");
-		sql.append("destination_tel = :destinationTel, ");
-		sql.append("delivery_time = :deliveryTime, ");
-		sql.append("payment_method = :paymentMethod ");
-		sql.append("WHERE user_id = :userId AND status = 0;");
-
-		SqlParameterSource param =
-				new MapSqlParameterSource().addValue("destinationName", order.getDestinationName())
-						.addValue("destinationEmail", order.getDestinationEmail())
-						.addValue("destinationZipCode", order.getDestinationZipCode())
-						.addValue("destinationAddress", order.getDestinationAddress())
-						.addValue("destinationTel", order.getDestinationTel())
-						.addValue("deliveryTime", order.getDeliveryTime())
-						.addValue("paymentMethod", order.getPaymentMethod())
-						.addValue("userId", order.getUser().getId());
-
+		// WITH句を用いて削除ボタンが押された注文商品とそれに紐づくトッピングを削除
+		sql.append("WITH deleted_order_items_id AS( ");
+		sql.append("DELETE FROM order_items ");
+		sql.append("WHERE id = :orderItemId ");
+		sql.append("AND order_id IN ");
+		sql.append("(SELECT id FROM orders WHERE user_id = :userId AND status = 0) ");
+		sql.append("RETURNING id ");
+		sql.append(")");
+		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN ");
+		sql.append("(SELECT id FROM deleted_order_items_id);");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId)
+				.addValue("userId", userId);
 		template.update(sql.toString(), param);
 	}
-
 }

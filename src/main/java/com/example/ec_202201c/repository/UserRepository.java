@@ -21,6 +21,7 @@ public class UserRepository {
 		user.setZipcode(rs.getString("zipcode"));
 		user.setAddress(rs.getString("address"));
 		user.setTelephone(rs.getString("telephone"));
+		user.setRole(rs.getInt("role"));
 		return user;
 	};
 
@@ -37,7 +38,7 @@ public class UserRepository {
 	public User findByEmail(String email) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ");
-		sql.append("id, name, email, password, zipcode, address, telephone ");
+		sql.append("id, name, email, password, zipcode, address, telephone, role ");
 		sql.append("FROM users ");
 		sql.append("WHERE email = :email;");
 
@@ -59,8 +60,8 @@ public class UserRepository {
 	public void insert(User user) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO users ");
-		sql.append("(name, email, password, zipcode, address, telephone ) ");
-		sql.append("VALUES (:name, :email,:password,:zipcode,:address,:telephone);");
+		sql.append("(name, email, password, zipcode, address, telephone, role ) ");
+		sql.append("VALUES (:name, :email,:password,:zipcode,:address,:telephone, :role);");
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
 		template.update(sql.toString(), param);
 	}

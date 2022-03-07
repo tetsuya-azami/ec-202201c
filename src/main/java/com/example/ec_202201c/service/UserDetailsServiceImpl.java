@@ -31,9 +31,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("入力されたメールアドレスは登録されていません");
 		}
+
 		// 認可権限の付与
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("USER_ROLE"));
+		if (user.getRole() == 1) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		} else if (user.getRole() == 2) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		}
 
 		// 認可権限を付与したユーザを作成し、返す
 		return new Account(user, authorities);

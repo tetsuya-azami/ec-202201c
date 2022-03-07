@@ -1,42 +1,26 @@
 /**
  * パスワードの確認処理
  */
-'use strict';
-$(function() {
+"use strict";
+$(function () {
+  let $conPass = $("#inputConfirmationPassword");
+  let $pass = $("#password");
 
-	$('#inputConfirmationPassword').on('keyup', function() {
-		let conPass = $('#inputConfirmationPassword').val();
-		let pass = $('#inputPassword').val();
-		if (conPass != pass) {
-			$('#mismatchMessage').text('パスワードが一致しません！');
-			$('#btn').prop('disabled', true);
-		} else {
-			$('#mismatchMessage').text('OK!');
-			$('#btn').prop('disabled', false);
-		}
-	});
+  $("#inputConfirmationPassword").on("keyup", function () {
+    checkPass();
+  });
+  $("#password").on("keyup", function () {
+    checkPass();
+  });
 
-		$(document).on('click','#get_address_btn', function() {
-		$.ajax({
-			url: 'http://zipcoda.net/api',
-			dataType: 'jsonp',
-			data: {
-				zipcode: $('#inputZipcode').val(),
-			},
-			async: true,
-		})
-			.done(function(data) {
-				console.log(data);
-				console.dir(JSON.stringify(data));
-				$('#inputAddress').val(data.items[0].address);
-			})
-			.fail(function(XMLHttpRequest, textStatus, errorThrown) {
-				alert('正しい結果を得られませんでした。');
-				console.log('XMLHttpRequest : ' + XMLHttpRequest.status);
-				console.log('textStatus     : ' + textStatus);
-				console.log('errorThrown    : ' + errorThrown.message);
-			});
-	});
-
-
+  //パスワードと確認用パスワードが一致しているか確認
+  const checkPass = () => {
+    if ($conPass.val() != $pass.val()) {
+      $("#mismatchMessage").text("パスワードが一致しません！");
+      $("#btn").prop("disabled", true);
+    } else {
+      $("#mismatchMessage").text("OK!");
+      $("#btn").prop("disabled", false);
+    }
+  };
 });
