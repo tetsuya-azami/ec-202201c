@@ -1,6 +1,7 @@
 package com.example.ec_202201c.controller;
 
 import java.text.ParseException;
+import java.util.Date;
 import com.example.ec_202201c.domain.Account;
 import com.example.ec_202201c.domain.Order;
 import com.example.ec_202201c.form.OrderForm;
@@ -51,6 +52,15 @@ public class OrderConfirmController {
 	@RequestMapping("/finishing")
 	public String finishing(@Validated OrderForm orderForm, BindingResult result,
 			@AuthenticationPrincipal Account account, Model model) {
+		// 注文時から3時間以内に配達指定になっていたらエラーメッセージを返す
+		try {
+			if (checkIfTooEearlyDeliveryTime(orderForm.getOrderDeliveryTime())) {
+				result.rejectValue("deliveryTime", "toEarlyDeliveryTimeError");
+			}
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+
 		if (result.hasErrors()) {
 			return confirm(account, model);
 		}
@@ -60,7 +70,6 @@ public class OrderConfirmController {
 		BeanUtils.copyProperties(orderForm, order);
 		order.setPaymentMethod(Integer.parseInt(orderForm.getPaymentMethod()));
 		try {
-			System.out.println(orderForm.getDeliveryDate());
 			order.setDeliveryTime(orderForm.getOrderDeliveryTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -70,5 +79,16 @@ public class OrderConfirmController {
 		order.setUser(account.getUser());
 		orderConfirmService.finishingOrder(order);
 		return "redirect:/order/finished";
+	}
+
+	public Boolean checkIfTooEearlyDeliveryTime(Date deliveryTime) {
+		Date now = new Date();
+		long durationByMiliseconds = deliveryTime.getTime() - now.getTime();
+		long durationByHours = durationByMiliseconds / 1000 / 60 / 60;
+		if (durationByHours < 3) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
