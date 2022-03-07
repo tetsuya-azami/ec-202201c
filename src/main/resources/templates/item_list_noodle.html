@@ -49,7 +49,11 @@
                       type="text"
                       th:field="*{name}"
                       class="form-control input-sm"
+                      list="itemList"
                     />
+                    <datalist id="itemList">
+                      <option th:each="item:${itemList}" th:value="${item.name}"></option>
+                      </datalist>
                   </div>
                 </div>
                 <div class="text-center">
