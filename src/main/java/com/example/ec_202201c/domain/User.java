@@ -8,23 +8,12 @@ public class User {
 	private String zipcode;
 	private String address;
 	private String telephone;
-
-
+	private Integer role;
 
 	public User() {}
 
-	public User(String name, String email, String password, String zipcode, String address,
-			String telephone) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.zipcode = zipcode;
-		this.address = address;
-		this.telephone = telephone;
-	}
-
 	public User(Integer id, String name, String email, String password, String zipcode,
-			String address, String telephone) {
+			String address, String telephone, Integer role) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -32,6 +21,18 @@ public class User {
 		this.zipcode = zipcode;
 		this.address = address;
 		this.telephone = telephone;
+		this.role = role;
+	}
+
+	public User(String name, String email, String password, String zipcode, String address,
+			String telephone, Integer role) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.zipcode = zipcode;
+		this.address = address;
+		this.telephone = telephone;
+		this.role = role;
 	}
 
 	public Integer getId() {
@@ -90,10 +91,18 @@ public class User {
 		this.telephone = telephone;
 	}
 
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
 		return "User [address=" + address + ", email=" + email + ", id=" + id + ", name=" + name
-				+ ", password=" + password + ", telephone=" + telephone + ", zipcode=" + zipcode
-				+ "]";
+				+ ", password=" + password + ", role=" + role + ", telephone=" + telephone
+				+ ", zipcode=" + zipcode + "]";
 	}
 }

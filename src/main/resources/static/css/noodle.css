@@ -1,4 +1,7 @@
 @charset "UTF-8";
+* {
+  list-style: none;
+}
 
 /* サイズをオレンジ〇で囲む */
 span.price {
@@ -31,8 +34,22 @@ th {
   text-align: center;
 }
 
-div.warning{
-	border-color: #ff0000;
-	background-color: #ff0000;
-	margin-left: 5px;
+div.warning {
+  border-color: #ff0000;
+  background-color: #ff0000;
+  margin-left: 5px;
+}
+
+.searchResult {
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+.navigation2 {
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+.pagination2 {
+  margin: 20px auto !important;
 }

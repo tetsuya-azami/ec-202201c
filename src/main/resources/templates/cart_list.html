@@ -29,7 +29,11 @@
             col-xs-12
           ">
 				<h3 class="text-center">ショッピングカート</h3>
-				<p th:if=${#lists.isEmpty(order.orderItemList)} style="color: red">カートに商品がありません</p>
+				<div class="messages text-center">
+					<label th:text="${deleteSuccess}" style="color: green;"></label><br>
+					<label th:text="${deleteFailure}" style="color: red;"></label><br>
+					<label th:if=${#lists.isEmpty(order.orderItemList)} style="color: red" class="text-center">カートに商品がありません</label>
+				</div>
 				<table class="table table-striped item-list-table"
 					th:unless=${#lists.isEmpty(order.orderItemList)}>
 					<tbody>
@@ -90,11 +94,10 @@
 							<td>
 								<div class="text-center">
 									<form th:action="@{/cart/delete}" method="post">
-										<input type="hidden" name="itemId"
+										<input type="hidden" name="orderItemId"
 											th:value="${orderItem.id}">
-										<button type="submit">削除</button>
+										<button class="btn btn-primary" type="submit">削除</button>
 									</form>
-
 								</div>
 							</td>
 						</tr>
@@ -130,9 +133,6 @@
 
 	</div>
 	<!-- end container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script th:src="@{/js/common.js}"></script>
+	<span th:insert="fragment_part::frag_common_scripts"></span>
 </body>
 </html>

@@ -1,22 +1,22 @@
 package com.example.ec_202201c.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.ec_202201c.domain.Item;
 import com.example.ec_202201c.repository.ItemListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ItemListService {
 	@Autowired
 	ItemListRepository itemListRepository;
-	public List<Item> findAll(){
-		return itemListRepository.findAll();
+
+	public Page<Item> findAll(Pageable pageable) {
+		return itemListRepository.findAll(pageable);
 	}
-	
-	public List<Item> findByLikeName(String name){
-		return itemListRepository.findByLikeName(name);
+
+	public Page<Item> findByLikeName(String name, Pageable pageable) {
+		return itemListRepository.findByLikeName(name, pageable);
 	}
 }

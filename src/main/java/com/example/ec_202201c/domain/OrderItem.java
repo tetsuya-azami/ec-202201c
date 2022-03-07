@@ -96,14 +96,16 @@ public class OrderItem {
 	public int getSubTotal() {
 		int itemPrice = 0;
 		int toppingPrice = 0;
-		for (OrderTopping orderTopping : getOrderToppingList()) {
-			if (getSize() == 'M') {
-				itemPrice = getItem().getPriceM();
-				toppingPrice += orderTopping.getTopping().getPriceM();
-			} else if (getSize() == 'L') {
-				itemPrice = getItem().getPriceL();
-				toppingPrice += orderTopping.getTopping().getPriceL();
-			}
+		if (getSize() == 'M') {
+			itemPrice = getItem().getPriceM();
+			// orderToppingリストの合計金額(サイズM)
+			toppingPrice = getOrderToppingList().stream()
+					.mapToInt(orderTopping -> orderTopping.getTopping().getPriceM()).sum();
+		} else if (getSize() == 'L') {
+			itemPrice = getItem().getPriceL();
+			// orderToppingリストの合計金額(サイズL)
+			toppingPrice = getOrderToppingList().stream()
+					.mapToInt(orderTopping -> orderTopping.getTopping().getPriceL()).sum();
 		}
 		int totalPrice = itemPrice * getQuantity() + toppingPrice;
 		return totalPrice;
