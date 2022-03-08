@@ -18,16 +18,30 @@ import com.example.ec_202201c.domain.Topping;
 
 @Repository
 public class OrderHistoryRepository {
-	private final ResultSetExtractor<Order> ORDER_HISTORY_ROW_MAPPER = (rs) -> {
-		Order order = new Order();
+	private final ResultSetExtractor<List<Order>> ORDER_HISTORY_ROW_MAPPER = (rs) -> {
+		List<Order> orderList = new ArrayList<>();
+		Order order = null;
 		// orderドメインのフィールドであるorderItemListを作ってorderにセット
 		List<OrderItem> orderItemList = new ArrayList<>();
-		order.setOrderItemList(orderItemList);
+
 		OrderItem orderItem = null;
 		List<OrderTopping> orderToppingList = null;
 
+		int preOrderId = -1;
 		int preOrderItemId = -1;
 		while (rs.next()) {
+			int orderId = rs.getInt("o_id");
+			// OrderIdが前のOrderIdと一致しているか確認する
+			if (preOrderId != orderId) {
+				
+				order = new Order();
+				order.setOrderItemList(orderItemList);
+				order.setOrderDate(rs.getDate("o_order_date"));
+				orderList.add(order);
+				//System.out.println("\n\n\n\n\n\n\n" + orderList);
+				
+				//orderItemIdが前のOrderItemIdと一致しているか確認する
+			}
 			int orderItemId = rs.getInt("oi_id");
 			if (orderItemId != preOrderItemId) {
 				orderItem = new OrderItem();
@@ -51,10 +65,11 @@ public class OrderHistoryRepository {
 				} else if (orderItem.getSize() == 'L') {
 					item.setPriceL(rs.getInt("i_price"));
 				}
-
+				
 				order.setTotalPrice(rs.getInt("o_total_price"));
 				orderItemList.add(orderItem);
 				preOrderItemId = orderItemId;
+				preOrderId = orderId;
 			}
 
 			OrderTopping orderTopping = new OrderTopping();
@@ -70,17 +85,20 @@ public class OrderHistoryRepository {
 				topping.setPriceL(rs.getInt("t_price"));
 			}
 			orderToppingList.add(orderTopping);
+
 		}
-		return order;
+		return orderList;
 	};
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
-	public Order findHistoryByUserId(Integer userId) {
+	public List<Order> findHistoryByUserId(Integer userId) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ");
+		sql.append("o.id o_id, ");
 		sql.append("oi.id oi_id, ");
+		sql.append("o.order_date o_order_date, ");
 		sql.append("i.name i_name, ");
 		sql.append("i.image_path i_image_path, ");
 		sql.append("oi.size oi_size, ");
@@ -102,10 +120,11 @@ public class OrderHistoryRepository {
 		sql.append("ON oi.item_id = i.id ");
 		sql.append("LEFT OUTER JOIN toppings t ");
 		sql.append("ON ot.topping_id = t.id ");
-		sql.append("WHERE o.user_id = :userId AND o.status != 0;");
+		sql.append("WHERE o.user_id = :userId AND o.status != 0 ");
+		sql.append("ORDER BY o.order_date DESC;");
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-		Order order = template.query(sql.toString(), param, ORDER_HISTORY_ROW_MAPPER);
-		return order;
+		List<Order> orderList = template.query(sql.toString(), param, ORDER_HISTORY_ROW_MAPPER);
+		return orderList;
 	}
 }
