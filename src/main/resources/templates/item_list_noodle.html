@@ -76,8 +76,9 @@
           class="text-center searchResult alert alert-danger"
           th:if="${#fields.hasErrors('name')}"
         >
-          <span th:errors="*{name}">該当商品なし</span>
+          
         </div>
+        <span th:text="${name}">該当商品なし</span>
         <div th:if="${ResultByFuzzySearch}" class="text-center searchResult">
           <span th:text="${ResultByFuzzySearch}">検索結果は〇〇件です</span>
         </div>
