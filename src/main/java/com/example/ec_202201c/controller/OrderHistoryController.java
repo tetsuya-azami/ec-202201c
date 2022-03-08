@@ -1,5 +1,7 @@
 package com.example.ec_202201c.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.ec_202201c.domain.Account;
 import com.example.ec_202201c.domain.Order;
 import com.example.ec_202201c.service.OrderHistoryService;
+
 
 @Controller
 @RequestMapping("/order")
@@ -23,8 +26,10 @@ public class OrderHistoryController {
 	 */
 	@RequestMapping("/history")
 	public String history(@AuthenticationPrincipal Account account, Model model) {
-		Order order = orderHistoryService.findHistoryByUserId(account.getUser().getId());
-		model.addAttribute("order", order);
+		
+		List<Order> orderList = orderHistoryService.findHistoryByUserId(account.getUser().getId());
+		model.addAttribute("orderList", orderList);
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + orderList);
 		return "order_history";
 	}
 }

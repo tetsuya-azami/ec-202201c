@@ -1,5 +1,7 @@
 package com.example.ec_202201c.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,9 @@ public class OrderHistoryService {
 	 *
 	 * @param userId ログインユーザのid
 	 * @return ログインユーザの注文確定前のショッピングカート
-	 * @author Tetsuya Azami
+	 * @author Keitaro Ono
 	 */
-	public Order findHistoryByUserId(Integer userId) {
-		Order order = orderHistoryRepository.findHistoryByUserId(userId);
-		return order;
+	public List<Order> findHistoryByUserId(Integer userId) {
+		return orderHistoryRepository.findHistoryByUserId(userId);
 	}
 }
