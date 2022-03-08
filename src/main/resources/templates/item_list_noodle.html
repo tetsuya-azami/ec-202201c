@@ -28,6 +28,9 @@
             col-xs-12
           "
         >
+        <div  class="text-center">
+          <label th:text="${insertSuccess}" style="color: green;"></label>
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
               <div class="panel-title">商品を検索する</div>
@@ -76,7 +79,7 @@
           class="text-center searchResult alert alert-danger"
           th:if="${#fields.hasErrors('name')}"
         >
-          
+
         </div>
         <span th:text="${name}">該当商品なし</span>
         <div th:if="${ResultByFuzzySearch}" class="text-center searchResult">

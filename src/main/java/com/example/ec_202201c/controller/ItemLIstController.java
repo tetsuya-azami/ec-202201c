@@ -36,7 +36,8 @@ public class ItemLIstController {
 	 * @return 商品一覧ページ
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, @PageableDefault(page = 0, size = 9) Pageable pageable, @ModelAttribute("name") String name) {
+	public String list(Model model, @PageableDefault(page = 0, size = 9) Pageable pageable,
+			@ModelAttribute("name") String name) {
 		Page<Item> itemList = itemListService.findAll(pageable);
 		model.addAttribute("page", itemList);
 		model.addAttribute("itemList", itemList.getContent());
@@ -46,15 +47,16 @@ public class ItemLIstController {
 
 	@RequestMapping("/search")
 	public String searchName(@Validated ItemSearchForm itemSearchForm, BindingResult result,
-			Model model, @PageableDefault(page = 0, size = 9) Pageable pageable, RedirectAttributes redirectAttributes) {
+			Model model, @PageableDefault(page = 0, size = 9) Pageable pageable,
+			RedirectAttributes redirectAttributes) {
 		Page<Item> itemList = itemListService.findByLikeName(itemSearchForm.getName(), pageable);
-		if("".equals(itemSearchForm.getName())) {
+		if ("".equals(itemSearchForm.getName())) {
 			return "redirect:/item/list";
 		}
 		if (result.hasErrors()) {
 			return "redirect:/item/list";
 		}
-		
+
 		if (itemList.isEmpty()) {
 			redirectAttributes.addFlashAttribute("name", "検索結果がありませんでした");
 			return "redirect:/item/list";
