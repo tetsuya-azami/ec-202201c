@@ -45,7 +45,6 @@ public class ItemDetailRepository {
 		String sql = "SELECT name, price_m, price_l FROM toppings";
 		
 		List<Topping> toppingList = template.query(sql, TOPPING_ROW_MAPPER);
-		
 		return toppingList;
 	}
 }

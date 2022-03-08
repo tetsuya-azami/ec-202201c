@@ -1,39 +1,26 @@
 package com.example.ec_202201c;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.example.ec_202201c.domain.User;
-import com.example.ec_202201c.service.UserService;
+import com.example.ec_202201c.repository.UserRepository;
 
 @SpringBootTest
 class ResisterUserTest {
 	@Autowired
-	private UserService userService;
+    JdbcTemplate jdbctemplate;
+
+    @Autowired
+     UserRepository userRepository;
 	
 	@Test
-	public void testFindByEmail() {
-		User userMail = userService.findByEmail("rakunoo@example.com");
-		assertEquals("null",userMail,"nullではありません");
-		assertEquals("rakunoo@example.com",userMail.getEmail(),"nullです");
-		System.out.println(userMail.getEmail());
+	private void insertRepositoryTset() {
+		//assertEquals(null, null,"");
 	}
-	
-	@Test
-	public void testInsert() {
-		User user = new User();
-		user.setName("rakunoo");
-		user.setEmail("rakunoo@example.com");
-		user.setZipcode("rakunoo");
-		user.setPassword("111-1111");
-		user.setTelephone("011-1111-1111");
-		user.setAddress("rakunoo住所");
-		user.setRole(1);
-		userService.insert(user);
-	}
+		
 	
 }
