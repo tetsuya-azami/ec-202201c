@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 public class CartListRepository {
 	private final ResultSetExtractor<Order> CART_LIST_ROW_MAPPER = (rs) -> {
 		Order order = new Order();
+
 		// orderドメインのフィールドであるorderItemListを作ってorderにセット
 		List<OrderItem> orderItemList = new ArrayList<>();
 		order.setOrderItemList(orderItemList);
@@ -26,6 +27,7 @@ public class CartListRepository {
 
 		int preOrderItemId = -1;
 		while (rs.next()) {
+			order.setId(rs.getInt("o_id"));
 			int orderItemId = rs.getInt("oi_id");
 			if (orderItemId != preOrderItemId) {
 				orderItem = new OrderItem();
@@ -80,6 +82,7 @@ public class CartListRepository {
 	public Order findShoppingCartByUserId(Integer userId) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ");
+		sql.append("o.id o_id, ");
 		sql.append("oi.id oi_id, ");
 		sql.append("i.name i_name, ");
 		sql.append("i.image_path i_image_path, ");
@@ -126,8 +129,8 @@ public class CartListRepository {
 		sql.append(")");
 		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN ");
 		sql.append("(SELECT id FROM deleted_order_items_id);");
-		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId)
-				.addValue("userId", userId);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId).addValue("userId",
+				userId);
 		template.update(sql.toString(), param);
 	}
 }
