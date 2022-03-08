@@ -1,17 +1,18 @@
 package com.example.ec_202201c.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InsertOrderItemForm {
-	
+
 	private Integer quantity;
 	private Character size;
-	
-	private Integer toppingId;
-	private Integer orderItemId;
+	private List<Integer> toppingIdList = new ArrayList<>();
 	
 	@Override
 	public String toString() {
-		return "InsertOrderItemForm [quantity=" + quantity + ", size=" + size + ", toppingId=" + toppingId
-				+ ", orderItemId=" + orderItemId + "]";
+		return "InsertOrderItemForm [quantity=" + quantity + ", size=" + size + ", toppingIdList=" + toppingIdList
+				+ "]";
 	}
 
 	public Integer getQuantity() {
@@ -30,28 +31,19 @@ public class InsertOrderItemForm {
 		this.size = size;
 	}
 
-	public Integer getToppingId() {
-		return toppingId;
+	public List<Integer> getToppingIdList() {
+		return toppingIdList;
 	}
 
-	public void setToppingId(Integer toppingId) {
-		this.toppingId = toppingId;
-	}
-
-	public Integer getOrderItemId() {
-		return orderItemId;
-	}
-
-	public void setOrderItemId(Integer orderItemId) {
-		this.orderItemId = orderItemId;
+	public void setToppingIdList(List<Integer> toppingIdList) {
+		this.toppingIdList = toppingIdList;
 	}
 	
 	
 	
 	
-	
-	
+
 
 	
-	
+
 }

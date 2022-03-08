@@ -24,9 +24,6 @@ import com.example.ec_202201c.service.ItemDetailService;
 @Controller
 @RequestMapping("/item")
 public class ItemDetailController {
-	
-	private final Integer TOPPING_MSIZE_PRICE = 200;
-	private final Integer TOPPING_LSIZE_PRICE = 300;
 
 	@Autowired
 	private ItemDetailService itemDetailService;
@@ -54,38 +51,43 @@ public class ItemDetailController {
 
 	@RequestMapping("/save")
 	public String addOrderItemToCart(InsertOrderItemForm orderItemForm,Integer itemId,@AuthenticationPrincipal Account account, Model model) {
-		
-		Order order = itemDetailService.findShoppingCartByUserId(100);
+
+		Order order = itemDetailService.ordersNullChecked(account.getUser().getId());
 		Item item = itemDetailService.showDetail(itemId);
-		
-		if (order.getId() == null) {
+		/* 全件の取得 */
+		List<Topping> toppingList = itemDetailService.findAll();
+		  
+		if (order == null) {
 			
+			System.out.println("nullです。");
 			System.out.println(item);
 			/* 注文がnullの場合orderのインスタンスを生成 */
 			Order shoppingCart = new Order();
-			shoppingCart.setUserId(1000);
+			shoppingCart.setUserId(account.getUser().getId());
 
 			Item inItem = new Item();
-			Topping topping = new Topping();
-			
-			/* サイズによって金額の変更 */
-			if (orderItemForm.getSize() == 'M') {
-				inItem.setPriceM(item.getPriceM());
-				topping.setPriceM(TOPPING_MSIZE_PRICE);
-			} else if (orderItemForm.getSize() == 'L') {
-				inItem.setPriceL(item.getPriceL());
-				topping.setPriceL(TOPPING_LSIZE_PRICE);
+			if(orderItemForm.getSize() == 'M') {
+			inItem.setPriceM(item.getPriceM());
+			}else if(orderItemForm.getSize() == 'L'){
+			inItem.setPriceL(item.getPriceL());
 			}
 			
+			//orderTopping
+			List<Integer> checkedToppingIdList = orderItemForm.getToppingIdList();
 			
 			List<OrderTopping> orderToppingList = new ArrayList<>();
 
-			OrderTopping orderTopping = new OrderTopping();
-			orderTopping.setTopping(topping);
-			orderToppingList.add(orderTopping);
-			orderTopping.setToppingId(orderItemForm.getToppingId());
+			for (Topping topping : toppingList) {
+				
+				if(checkedToppingIdList.contains(topping.getId())) {
+					OrderTopping orderTopping = new OrderTopping();
+					orderTopping.setTopping(topping);
+					orderToppingList.add(orderTopping);
+				}
+			}
+			 
 
-            //orderItemにインサート
+            //orderItem
 			OrderItem orderItem = new OrderItem();
 		    orderItem.setItem(item);
 			orderItem.setItemId(itemId);
@@ -94,29 +96,58 @@ public class ItemDetailController {
 			orderItem.setSize(orderItemForm.getSize());
 			orderItem.setOrderToppingList(orderToppingList);
 			
-			//注文に合計金額をインサート
+			//注文に合計金額を取得
 			shoppingCart.setTotalPrice(orderItem.getSubTotal());
 
 			
-			System.out.println("コントローラーのインサートの直前");
-			System.out.println(order.getUserId());
-			itemDetailService.OrderInsert(shoppingCart, orderItem, orderTopping);
 
+			itemDetailService.OrderInsert(shoppingCart, orderItem, checkedToppingIdList);
+
+			
 		} else {
-			System.out.println("order;" + order);
+			
+			Order shoppingCart = new Order();
+			shoppingCart = itemDetailService.findShoppingCartByUserId(account.getUser().getId());
+			
+			System.out.println(shoppingCart.getId() + "aaa");
+			
+			Item inItem = new Item();
+			if(orderItemForm.getSize() == 'M') {
+			inItem.setPriceM(item.getPriceM());
+			}else if(orderItemForm.getSize() == 'L'){
+			inItem.setPriceL(item.getPriceL());
+			}
+			
+			//orderTopping
+			List<Integer> checkedToppingIdList = orderItemForm.getToppingIdList();
+			
+			List<OrderTopping> orderToppingList = new ArrayList<>();
+
+			for (Topping topping : toppingList) {
+				
+				if(checkedToppingIdList.contains(topping.getId())) {
+					OrderTopping orderTopping = new OrderTopping();
+					orderTopping.setTopping(topping);
+					orderToppingList.add(orderTopping);
+				}
+			}
+			 
+
+            //orderItem
 			OrderItem orderItem = new OrderItem();
-			OrderTopping orderTopping = new OrderTopping();
-
-			order.setTotalPrice(order.getCalcTotalPrice());
-
+		    orderItem.setItem(item);
 			orderItem.setItemId(itemId);
+			orderItem.setOrderId(shoppingCart.getId());
 			orderItem.setQuantity(orderItemForm.getQuantity());
 			orderItem.setSize(orderItemForm.getSize());
-
-			orderTopping.setOrderItemId(orderItemForm.getOrderItemId());
-			orderTopping.setToppingId(orderItemForm.getToppingId());
-			itemDetailService.ordersUpdate(order, orderItem, orderTopping);
-
+			orderItem.setOrderToppingList(orderToppingList);
+			
+			List<OrderItem> orderItemList = shoppingCart.getOrderItemList();
+			orderItemList.add(orderItem);
+			
+			shoppingCart.setOrderItemList(orderItemList);
+			
+			itemDetailService.ordersUpdate(shoppingCart, orderItem, checkedToppingIdList);
 		}
 		return "redirect:/cart/list";
 	}

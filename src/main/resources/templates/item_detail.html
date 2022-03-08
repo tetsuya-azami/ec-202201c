@@ -16,7 +16,8 @@
 	<div class="container">
 		<span th:insert="fragment_part::frag_header"></span>
 
-		<form action="cart_list.html" th:action="@{/item/save?itemId=} + ${item.id}"
+		<form action="cart_list.html"
+			th:action="@{/item/save?itemId=} + ${item.id}"
 			th:object="${insertOrderItemForm}" method="post">
 			<div class="row">
 				<div class="col-xs-offset-2 col-xs-8">
@@ -48,12 +49,12 @@
 									</div>
 									<div class="col-sm-12">
 										<label class="radio-inline"> <input type="radio"
-											name="size" th:value="M"
-											th:field="*{size}"/> <span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+											name="size" th:value="M" th:field="*{size}" /> <span
+											class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
 											th:text="${item.priceM}"></span>
 										</label> <label class="radio-inline"> <input type="radio"
-											name="size" th:value="L" th:field="*{size}" />
-											<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
+											name="size" th:value="L" th:field="*{size}" /> <span
+											class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
 											th:text="${item.priceL}"></span>
 										</label>
 									</div>
@@ -71,12 +72,11 @@
 											トッピング：&nbsp;1つにつき <span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
 											<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
 										</label>
-										<div th:each="topping:${toppingList}" class="checkbox-inline" >
+										<div th:each="topping:${toppingList}" class="checkbox-inline">
 											<label class="checkbox"> <input type="checkbox"
-												name="toppingId" th:text="${topping.name}" th:value="${topping.id}" th:field="*{toppingId}"/>
+												th:field="*{toppingIdList}" th:text="${topping.name}"
+												th:value="${topping.id}" />
 											</label>
-						
-											
 										</div>
 									</div>
 								</div>
