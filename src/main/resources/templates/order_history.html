@@ -30,11 +30,14 @@
           "
         >
           <h3 class="text-center">注文履歴確認</h3>
-        <label th:if=${#lists.isEmpty(order.orderItemList)} style="color: red" class="text-center">注文履歴がありません</label>
-        <div th:unless=${#lists.isEmpty(order.orderItemList)}>
+        <label th:if=${#lists.isEmpty(orderList)} style="color: red" class="text-center">注文履歴がありません</label>
+        <div th:unless=${#lists.isEmpty(orderList)}>
           <table class="table table-striped item-list-table">
             <tbody>
               <tr>
+              	<th>
+              		<div class="text-center">注文日</div>
+              	</th>
                 <th>
                   <div class="text-center">商品名</div>
                 </th>
@@ -48,9 +51,13 @@
                   <div class="text-center">小計</div>
                 </th>
               </tr>
+              <div th:each="order : ${orderList}">
               <tr th:each="orderItem : ${order.orderItemList}">
+              	<td>
+              		<span th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日')}">注文日が入ります</span>
+              	</td>
                 <td>
-                  <div class="center">
+                  <div class="center">               	
                     <img
                       src="../static/img_noodle/1.jpg"
                       th:src="@{'/img_noodle/'} + ${orderItem.item.imagePath}"
@@ -111,6 +118,7 @@
                   ></div>
                 </td>
               </tr>
+              </div>
             </tbody>
           </table>
          </div> 
