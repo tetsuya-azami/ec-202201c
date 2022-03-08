@@ -17,21 +17,23 @@ public class ItemInsertForm {
 
 	@NotBlank
 	@Pattern(regexp = "^[0-9]{1,5}$")
-	private String price_m;
+	private String priceM;
 
 	@NotBlank
 	@Pattern(regexp = "^[0-9]{1,5}$")
-	private String price_l;
+	private String priceL;
 
 	public ItemInsertForm() {}
 
-	public ItemInsertForm(String name, MultipartFile uploadFile, String description, String price_m,
-			String price_l) {
+	public ItemInsertForm(@NotBlank @Size(min = 1, max = 128) String name, MultipartFile uploadFile,
+			@NotBlank @Size(min = 1, max = 300) String description,
+			@NotBlank @Pattern(regexp = "^[0-9]{1,5}$") String priceM,
+			@NotBlank @Pattern(regexp = "^[0-9]{1,5}$") String priceL) {
 		this.name = name;
 		this.uploadFile = uploadFile;
 		this.description = description;
-		this.price_m = price_m;
-		this.price_l = price_l;
+		this.priceM = priceM;
+		this.priceL = priceL;
 	}
 
 	public String getName() {
@@ -58,25 +60,25 @@ public class ItemInsertForm {
 		this.description = description;
 	}
 
-	public String getPrice_m() {
-		return price_m;
+	public String getPriceM() {
+		return priceM;
 	}
 
-	public void setPrice_m(String price_m) {
-		this.price_m = price_m;
+	public void setPriceM(String priceM) {
+		this.priceM = priceM;
 	}
 
-	public String getPrice_l() {
-		return price_l;
+	public String getPriceL() {
+		return priceL;
 	}
 
-	public void setPrice_l(String price_l) {
-		this.price_l = price_l;
+	public void setPriceL(String priceL) {
+		this.priceL = priceL;
 	}
 
 	@Override
 	public String toString() {
-		return "itemInsertForm [description=" + description + ", name=" + name + ", price_l="
-				+ price_l + ", price_m=" + price_m + ", uploadFile=" + uploadFile + "]";
+		return "ItemInsertForm [description=" + description + ", name=" + name + ", priceL="
+				+ priceL + ", priceM=" + priceM + ", uploadFile=" + uploadFile + "]";
 	}
 }

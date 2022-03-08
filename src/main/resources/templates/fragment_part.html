@@ -37,7 +37,7 @@
           <a
             href="cart_list.html"
             th:href="@{/cart/list}"
-            th:unless="${#httpServletRequest.requestURI} == '/cart/list'"
+            th:unless="${#httpServletRequest.requestURI} == '/'"
             class="navbar-link"
             style="margin-right: 8px"
             >ショッピングカート</a
@@ -45,7 +45,7 @@
           <a
             href="order_history.html"
             th:href="@{/order/history}"
-            th:unless="${#httpServletRequest.requestURI} == '/order/history'"
+            th:unless="${#httpServletRequest.requestURI} == '/'"
             class="navbar-link"
             style="margin-right: 8px"
             >注文履歴</a
@@ -54,20 +54,25 @@
             sec:authorize="hasRole('ADMIN')"
             href="order_history.html"
             th:href="@{/admin/item/toInsert}"
-            th:unless="${#httpServletRequest.requestURI} == '/admin/item/toInsert'"
+            th:unless="${#httpServletRequest.requestURI} == '/'"
             class="navbar-link"
             style="margin-right: 8px"
             >商品登録</a
           >
           <a
-            href="login.html"
-            th:unless="${#httpServletRequest.requestURI} == '/'"
+            th:unless="${#httpServletRequest.requestURI} == '/' or ${#authorization.expression('hasAnyRole(''ADMIN'', ''USER'')')}"
             th:href="@{/}"
+            href="login.html"
             class="navbar-link"
             style="margin-right: 8px"
             >ログイン</a
           >
-          <a id="logoutSpan" class="navbar-link">ログアウト</a>
+          <a
+            th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''USER'')')}"
+            id="logoutSpan"
+            class="navbar-link"
+            >ログアウト</a
+          >
         </p>
         <form
           id="logoutForm"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,102 +9,112 @@
     <link rel="stylesheet" th:href="@{/css/noodle.css}" />
   </head>
   <body>
-    <span th:insert="fragment_part::frag_header"></span>
-
-    <div class="row">
-      <div
-        class="
-          col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-12 col-xs-12
-        "
-      >
-        <!-- 背景をグレーに、埋め込んだようなコンポーネント -->
-        <div class="well">
-          <form
-            method="post"
-            action="item_list_noodle.html"
-            enctype="multipart/form-data"
-            th:action="@{/admin/item/insert}"
-            th:object="${itemInsertForm}"
-          >
-            <fieldset>
-              <legend>商品登録</legend>
-              <table class="table table-striped">
-                <tr>
-                  <th nowrap>商品名</th>
-                  <td>
-                    <label
-                      class="error-messages"
-                      th:errors="*{name}"
-                      style="color: red"
-                      >商品名エラーメッセージ</label
-                    >
-                    <input
-                      type="text"
-                      th:field="*{name}"
-                      class="form-control"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th nowrap>写真</th>
-                  <td>
-                    <label
-                      class="error-messages"
-                      th:errors="*{uploadFile}"
-                      style="color: red"
-                      >商品名エラーメッセージ</label
-                    ><br />
-                    <input type="file" th:field="*{uploadFile}" />
-                  </td>
-                </tr>
-                <tr>
-                  <th nowrap>商品説明</th>
-                  <td>
-                    <label
-                      class="error-messages"
-                      th:errors="*{description}"
-                      style="color: red"
-                      >商品説明エラーメッセージ</label
-                    >
-                    <textarea
-                      th:field="*{description}"
-                      class="form-control"
-                    ></textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <th nowrap>商品サイズ価格</th>
-                  <td>
-                    <label
-                      class="error-messages"
-                      th:errors="*{price_m}"
-                      style="color: red"
-                      >商品サイズ価格エラーメッセージ</label
-                    >
-                    <label
-                      class="error-messages"
-                      th:errors="*{price_l}"
-                      style="color: red"
-                      >商品サイズ価格エラーメッセージ</label
-                    ><br />
-                    M:
-                    <input
-                      type="text"
-                      th:field="*{price_m}"
-                      class="form-control"
-                    /><br />
-                    L:
-                    <input
-                      type="text"
-                      th:field="*{price_l}"
-                      class="form-control"
-                    />
-                  </td>
-                </tr>
-              </table>
-              <button class="btn btn-primary">更新</button>
-            </fieldset>
-          </form>
+    <div class="container">
+      <span th:insert="fragment_part::frag_header"></span>
+      <div class="row">
+        <div
+          class="
+            col-lg-offset-2
+            col-lg-8
+            col-md-offset-2
+            col-md-8
+            col-sm-12
+            col-xs-12
+          "
+        >
+          <!-- 背景をグレーに、埋め込んだようなコンポーネント -->
+          <div class="well">
+            <form
+              method="post"
+              action="item_list_noodle.html"
+              enctype="multipart/form-data"
+              th:action="@{/admin/item/insert}"
+              th:object="${itemInsertForm}"
+            >
+              <fieldset>
+                <legend>商品登録</legend>
+                <table class="table table-striped">
+                  <tr>
+                    <th nowrap>商品名</th>
+                    <td>
+                      <label
+                        class="error-messages"
+                        th:errors="*{name}"
+                        style="color: red"
+                        >商品名エラーメッセージ</label
+                      >
+                      <input
+                        type="text"
+                        th:field="*{name}"
+                        class="form-control"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th nowrap>写真</th>
+                    <td>
+                      <label
+                        class="error-messages"
+                        th:errors="*{uploadFile}"
+                        style="color: red"
+                        >商品名エラーメッセージ</label
+                      ><br />
+                      <input
+                        type="file"
+                        th:field="*{uploadFile}"
+                        accept=".jpg,.png,image/jpeg,image/png"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th nowrap>商品説明</th>
+                    <td>
+                      <label
+                        class="error-messages"
+                        th:errors="*{description}"
+                        style="color: red"
+                        >商品説明エラーメッセージ</label
+                      >
+                      <textarea
+                        th:field="*{description}"
+                        class="form-control"
+                      ></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th nowrap>商品サイズ価格</th>
+                    <td>
+                      <label
+                        class="error-messages"
+                        th:errors="*{priceM}"
+                        style="color: red"
+                        >商品サイズ価格エラーメッセージ</label
+                      ><br />
+                      <label
+                        class="error-messages"
+                        th:errors="*{priceL}"
+                        style="color: red"
+                        >商品サイズ価格エラーメッセージ</label
+                      ><br />
+                      M:
+                      <input
+                        type="text"
+                        th:field="*{priceM}"
+                        class="form-control"
+                      /><br />
+                      L:
+                      <input
+                        type="text"
+                        th:field="*{priceL}"
+                        class="form-control"
+                      />
+                    </td>
+                  </tr>
+                </table>
+                <button class="btn btn-primary">更新</button>
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
     </div>
