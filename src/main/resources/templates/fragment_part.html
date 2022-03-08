@@ -32,39 +32,42 @@
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div
-        th:unless="${#httpServletRequest.requestURI} == '/'"
-        class="collapse navbar-collapse"
-        id="bs-example-navbar-collapse-1"
-      >
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <p class="navbar-text navbar-right">
           <a
-            th:unless="${#httpServletRequest.requestURI} == '/user/toInsert'"
             href="cart_list.html"
             th:href="@{/cart/list}"
+            th:unless="${#httpServletRequest.requestURI} == '/cart/list'"
             class="navbar-link"
+            style="margin-right: 8px"
             >ショッピングカート</a
-          >&nbsp;&nbsp;
+          >
           <a
-            th:unless="${#httpServletRequest.requestURI} == '/user/toInsert'"
             href="order_history.html"
             th:href="@{/order/history}"
+            th:unless="${#httpServletRequest.requestURI} == '/order/history'"
             class="navbar-link"
+            style="margin-right: 8px"
             >注文履歴</a
-          >&nbsp;&nbsp;
+          >
           <a
-            th:if="${#httpServletRequest.requestURI} == '/user/toInsert'"
+            sec:authorize="hasRole('ADMIN')"
+            href="order_history.html"
+            th:href="@{/admin/item/toInsert}"
+            th:unless="${#httpServletRequest.requestURI} == '/admin/item/toInsert'"
+            class="navbar-link"
+            style="margin-right: 8px"
+            >商品登録</a
+          >
+          <a
             href="login.html"
+            th:unless="${#httpServletRequest.requestURI} == '/'"
             th:href="@{/}"
             class="navbar-link"
+            style="margin-right: 8px"
             >ログイン</a
-          >&nbsp;&nbsp;
-          <a
-            th:unless="${#httpServletRequest.requestURI} == '/user/toInsert'"
-            id="logoutSpan"
-            class="navbar-link"
-            >ログアウト</a
           >
+          <a id="logoutSpan" class="navbar-link">ログアウト</a>
         </p>
         <form
           id="logoutForm"
@@ -78,6 +81,14 @@
     </div>
     <!-- /.container-fluid -->
   </nav>
+  <div
+    th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''USER'')')}"
+    class="text-right"
+    style="font-weight: bold"
+  >
+    <span sec:authentication="principal.user.name"></span>
+    <span>さんこんにちは</span>
+  </div>
 </span>
 
 <!-- 共通script -->
