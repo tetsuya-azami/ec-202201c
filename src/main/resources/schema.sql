@@ -64,6 +64,7 @@ create table orders (
   , payment_method integer
   ) ;
 
+
 -- 注文商品
 drop table if exists order_items cascade;
 
@@ -74,6 +75,7 @@ create table order_items (
   , quantity integer not null
   , size varchar(1)
 ) ;
+
 
 -- 注文トッピング
 drop table if exists order_toppings cascade;
