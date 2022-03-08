@@ -21,4 +21,8 @@ public class AdminService {
 		return adminRepository.findItemByName(name);
 	}
 
+	public void insertItem(Item item) {
+		adminRepository.insertItem(item);
+	}
+
 }
