@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CartListService {
-
 	@Autowired
 	private CartListRepository cartListRepository;
 

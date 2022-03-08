@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/item")
@@ -35,23 +36,30 @@ public class ItemLIstController {
 	 * @return 商品一覧ページ
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, @PageableDefault(page = 0, size = 9) Pageable pageable) {
+	public String list(Model model, @PageableDefault(page = 0, size = 9) Pageable pageable,
+			@ModelAttribute("name") String name) {
 		Page<Item> itemList = itemListService.findAll(pageable);
 		model.addAttribute("page", itemList);
 		model.addAttribute("itemList", itemList.getContent());
+		model.addAttribute("name", name);
 		return "item_list_noodle";
 	}
 
 	@RequestMapping("/search")
 	public String searchName(@Validated ItemSearchForm itemSearchForm, BindingResult result,
-			Model model, @PageableDefault(page = 0, size = 9) Pageable pageable) {
-		if (result.hasErrors()) {
-			return list(model, pageable);
-		}
+			Model model, @PageableDefault(page = 0, size = 9) Pageable pageable,
+			RedirectAttributes redirectAttributes) {
 		Page<Item> itemList = itemListService.findByLikeName(itemSearchForm.getName(), pageable);
+		if ("".equals(itemSearchForm.getName())) {
+			return "redirect:/item/list";
+		}
+		if (result.hasErrors()) {
+			return "redirect:/item/list";
+		}
+
 		if (itemList.isEmpty()) {
-			result.rejectValue("name", "noResultByFuzzySearch");
-			return list(model, pageable);
+			redirectAttributes.addFlashAttribute("name", "検索結果がありませんでした");
+			return "redirect:/item/list";
 		}
 
 		model.addAttribute("page", itemList);
