@@ -21,17 +21,12 @@ create table users (
  , FOREIGN KEY (role) REFERENCES roles(id)
 ) ;
 
--- --使わないです
--- -- 管理者ユーザ(pass:rakunoo)
--- insert into users(name, email, password, zipcode, address, telephone) values('rakunoo', 'rakunoo@example.com', '$2a$10$Utoo6nr3XIFEh4xOZ9Zr1.n/PtEYBb8HhlLDDklaJwsj.T3uux4kq','111-1111', 'テスト住所', 'テスト電話番号');
--- --一般ユーザー(pass:morimori)
--- insert into users(name, email, password, zipcode, address, telephone) values('テストユーザ', 'test@test.co.jp', '$2a$10$33C6/W2S0KC.oas9MnwOjOqRR1H4H46rLgwuflMwE8a.CporPK.by','000-0000', 'テスト住所', 'テスト電話番号');
 
 -- 商品
 drop table if exists items cascade;
 
 create table items (
-    id integer primary key
+    id serial primary key
   , name text not null
   , description text not null
   , price_m integer not null
@@ -44,11 +39,12 @@ create table items (
 drop table if exists toppings cascade;
 
 create table toppings (
-  id integer primary key
+  id serial primary key
   , name text not null
   , price_m integer not null
   , price_l integer not null
 ) ;
+
 
 --注文
 drop table if exists orders cascade;
@@ -68,6 +64,7 @@ create table orders (
   , payment_method integer
   ) ;
 
+
 -- 注文商品
 drop table if exists order_items cascade;
 
@@ -78,6 +75,7 @@ create table order_items (
   , quantity integer not null
   , size varchar(1)
 ) ;
+
 
 -- 注文トッピング
 drop table if exists order_toppings cascade;
