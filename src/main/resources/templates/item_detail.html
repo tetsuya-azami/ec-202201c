@@ -53,19 +53,19 @@
 										<input type="radio"
 											name="size" 
 											th:value="M" 
-											th:field="*{size}"
+											
 											class="size"
 											value="M"
-											checked="checked"
+											th:checked="true"
 											/> 
 											<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;
 											<span th:text="${item.priceM}"></span>
 											<input type="hidden" id="itemPriceM" th:value="${item.priceM}">
 										</label> <label class="radio-inline"> 
 										<input type="radio"
-											name="size" 
+											name="size"
 											th:value="L" 
-											th:field="*{size}"
+											
 											class="size"
 											value="L"
 											/> 

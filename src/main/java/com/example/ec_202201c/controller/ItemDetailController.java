@@ -59,8 +59,6 @@ public class ItemDetailController {
 		  
 		if (order == null) {
 			
-			System.out.println("nullです。");
-			System.out.println(item);
 			/* 注文がnullの場合orderのインスタンスを生成 */
 			Order shoppingCart = new Order();
 			shoppingCart.setUserId(account.getUser().getId());
