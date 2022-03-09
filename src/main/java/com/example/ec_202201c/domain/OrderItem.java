@@ -107,7 +107,7 @@ public class OrderItem {
 			toppingPrice = getOrderToppingList().stream()
 					.mapToInt(orderTopping -> orderTopping.getTopping().getPriceL()).sum();
 		}
-		int totalPrice = itemPrice * getQuantity() + toppingPrice;
+		int totalPrice = (itemPrice + toppingPrice) * getQuantity();
 		return totalPrice;
 	}
 }
