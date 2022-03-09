@@ -66,7 +66,7 @@ public class RegisterUserController {
 
 	@RequestMapping("/create")
 	public String create() {
-		// 管理者ユーザ/
+		// 管理者ユーザ
 		User adminRoleUser = new User("rakunoo", "rakunoo@example.com", "rakunoo", "111-1111",
 				"rakunoo住所", "011-1111-1111", 1);
 		// 一般ユーザ

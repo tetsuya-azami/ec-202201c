@@ -49,31 +49,29 @@
 									</div>
 									<div class="col-sm-12">
 
-										<label class="radio-inline"> <input type="radio"
-											name="size" th:value="M" th:field="*{size}" /> <span
-											class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-											th:text="${item.priceM}"></span>
-										</label> <label class="radio-inline"> <input type="radio"
-											name="size" th:value="L" th:field="*{size}" /> <span
-											class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
-											th:text="${item.priceL}"></span>
-										<!-- <label class="radio-inline"> 
+										<label class="radio-inline"> 
 										<input type="radio"
 											name="size" 
+											th:value="M" 
+											th:field="*{size}"
 											class="size"
-											 checked="checked"
-											 value="M"/> 
-											 <span class="price">&nbsp;М&nbsp;
-											 </span>&nbsp;&nbsp;<span
-											th:text="${item.priceM}" class="size"></span>
+											value="M"
+											checked="checked"
+											/> 
+											<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;
+											<span th:text="${item.priceM}"></span>
 											<input type="hidden" id="itemPriceM" th:value="${item.priceM}">
-										</label> <label class="radio-inline">
-										 <input type="radio"
-											name="size"
-											 class="size" 
-											 value="L"/> <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
-											th:text="${item.priceL}" class="size"></span>
-											<input type="hidden" id="itemPriceL" th:value="${item.priceL}"> -->
+										</label> <label class="radio-inline"> 
+										<input type="radio"
+											name="size" 
+											th:value="L" 
+											th:field="*{size}"
+											class="size"
+											value="L"
+											/> 
+											<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;
+											<span th:text="${item.priceL}"></span>
+											<input type="hidden" id="itemPriceL" th:value="${item.priceL}">
 										</label>
 									</div>
 								</div>
@@ -90,7 +88,7 @@
 											トッピング：&nbsp;1つにつき <span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
 											<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
 										</label>
-										<div th:each="topping:${toppingList}" class="checkbox-inline">
+										<div th:each="topping:${toppingList}" class="checkbox-inline topping">
 											<label class="checkbox"> <input type="checkbox"
 												th:field="*{toppingIdList}" th:text="${topping.name}"
 												th:value="${topping.id}" />
@@ -101,18 +99,6 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- <div th:each="topping:${toppingList}" 
-					class="checkbox-inline topping" 
-					>
-						<label class="checkbox">
-						 <input	type="checkbox" 
-							th:text="${topping.name}" 
-							value="" 
-							class="checkbox" />
-						</label>
-					</div> -->
-
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-8">
 							<div class="form-group">
@@ -120,7 +106,7 @@
 									<div class="col-xs-5 col-sm-5">
 										<label for="">数量:</label> <label class="control-label"
 											style="color: red" for="inputError">数量を選択してください</label> <select
-											name="area" class="form-control" th:field="*{quantity}">
+											name="area" class="form-control" th:field="*{quantity}" id="quantity">
 											<option th:value="1">1</option>
 											<option th:value="2">2</option>
 											<option th:value="3">3</option>
@@ -133,19 +119,6 @@
 											<option th:value="10">10</option>
 											<option th:value="11">11</option>
 											<option th:value="12">12</option>
-											<!-- name="area" id="quantity" class="form-control">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
-											<option value="6">6</option>
-											<option value="7">7</option>
-											<option value="8">8</option>
-											<option value="9">9</option>
-											<option value="10">10</option>
-											<option value="11">11</option>
-											<option value="12">12</option> -->
 										</select>
 									</div>
 								</div>
@@ -156,7 +129,7 @@
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-10">
 							<div class="form-group">
-								この商品金額：<span id="total-price">円(税抜)</span>
+								この商品金額：<span id="total-price"></span>円(税抜)
 							</div>
 						</div>
 					</div>
