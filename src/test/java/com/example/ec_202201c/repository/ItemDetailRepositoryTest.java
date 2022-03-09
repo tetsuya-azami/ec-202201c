@@ -30,6 +30,7 @@ class ItemDetailRepositoryTest {
 		assertEquals(800, expectedItem.getPriceL(), "itemDetailrepository.load()の引数が1の場合、price_Lは800");
 		assertEquals("1.jpg", expectedItem.getImagePath(), "itemDetailrepository.load()の引数が1の場合、image_pathは1.jpg");
 
+    
 		expectedItem = itemDetailrepository.load(18);
 
 		assertEquals(18, expectedItem.getId(), "itemDetailrepository.load()の引数が18の場合、idは18");

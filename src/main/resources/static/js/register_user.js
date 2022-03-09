@@ -16,7 +16,7 @@ $(function () {
   //パスワードと確認用パスワードが一致しているか確認
   const checkPass = () => {
     if ($conPass.val() != $pass.val()) {
-      $("#mismatchMessage").text("パスワードが一致しません！");
+      $("#mismatchMessage").text("パスワードと確認用パスワードが不一致です");
       $("#btn").prop("disabled", true);
     } else {
       $("#mismatchMessage").text("OK!");

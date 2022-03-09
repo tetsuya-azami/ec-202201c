@@ -51,12 +51,13 @@ public class ItemDetailController {
 
 	@RequestMapping("/save")
 	public String addOrderItemToCart(InsertOrderItemForm orderItemForm,Integer itemId,@AuthenticationPrincipal Account account, Model model) {
-
+		
 		Order order = itemDetailService.ordersNullChecked(account.getUser().getId());
+		System.out.println(order);
 		Item item = itemDetailService.showDetail(itemId);
+		
 		/* 全件の取得 */
 		List<Topping> toppingList = itemDetailService.findAll();
-		  
 		if (order == null) {
 			
 			/* 注文がnullの場合orderのインスタンスを生成 */

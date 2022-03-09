@@ -28,6 +28,9 @@ public class CartListController {
 	@RequestMapping("/list")
 	public String list(@AuthenticationPrincipal Account account, Model model) {
 		Order order = cartListService.findShoppingCartByUserId(account.getUser().getId());
+		if(order.getOrderItemList().size()==0) {
+			cartListService.deleteOrderByUserId(account.getUser().getId());
+		}
 		model.addAttribute("order", order);
 		return "cart_list";
 	}
@@ -42,4 +45,5 @@ public class CartListController {
 				messageSource.getMessage("deleteSuccess", new String[] {}, Locale.getDefault()));
 		return "redirect:/cart/list";
 	}
+	
 }

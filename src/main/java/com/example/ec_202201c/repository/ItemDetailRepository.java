@@ -50,8 +50,12 @@ public class ItemDetailRepository {
 	public Order ordersNullChecked(Integer userId) {
 		String sql = "SELECT user_id, status, total_price FROM orders WHERE user_id = :userId AND status = 0";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-		Order order =  template.queryForObject(sql, param, ORDER_ROW_MAPPER);
-		return order;
+		 List <Order> orderList =  template.query(sql, param, ORDER_ROW_MAPPER);
+		 if(orderList.size()==0) {
+			 return null;
+		 }else {
+			 return orderList.get(0);
+		 }
 	}
 	
 
