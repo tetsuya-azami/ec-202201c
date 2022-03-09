@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +39,11 @@ public class AdminInsertController {
 		return new ItemInsertForm();
 	}
 
+	/**
+	 * 商品登録ページを表示
+	 *
+	 * @return 商品登録ページ
+	 */
 	@RequestMapping("/item/toInsert")
 	public String itemToInsert() {
 		return "/admin/item_insert";
@@ -74,6 +80,9 @@ public class AdminInsertController {
 			e.printStackTrace();
 			// 画像処理の途中でIOに関するエラーが発生した場合
 			result.rejectValue("uploadFile", "uploadError");
+		} catch (MaxUploadSizeExceededException e) {
+			e.printStackTrace();
+			result.rejectValue("uploadFile", "filesizeExceedException");
 		}
 
 		if (result.hasErrors()) {
@@ -93,7 +102,6 @@ public class AdminInsertController {
 		return "redirect:/item/list";
 	}
 
-
 	/**
 	 * 保存する画像の名前を作って返す
 	 *
@@ -104,9 +112,14 @@ public class AdminInsertController {
 	 * @throws IOException
 	 */
 	public String saveImage(ItemInsertForm itemInsertForm)
-			throws IllegalExtensionException, IOException {
+			throws IllegalExtensionException, IOException, MaxUploadSizeExceededException {
 		String productName = itemInsertForm.getName();
-		String saveImageName = productName + extractExtensionName(itemInsertForm);
+		// IllegalExtensionExceptionが発生している場合は呼び出し元に例外を伝播させる
+		String saveImageName = null;
+		if (extractExtensionName(itemInsertForm) instanceof String) {
+			saveImageName = productName + extractExtensionName(itemInsertForm);
+		}
+
 		// 画像保存先のパスオブジェクトを作成
 		Path imagePath = Paths.get("src/main/resources/static/img_noodle/" + saveImageName);
 		try (OutputStream os = Files.newOutputStream(imagePath, StandardOpenOption.CREATE)) {
@@ -134,7 +147,7 @@ public class AdminInsertController {
 				return extension;
 			}
 		}
-		return "";
+		throw new IllegalExtensionException("");
 	}
 
 }
