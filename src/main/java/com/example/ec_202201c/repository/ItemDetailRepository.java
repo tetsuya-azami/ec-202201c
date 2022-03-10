@@ -60,10 +60,10 @@ public class ItemDetailRepository {
 	
 
 	public void ordersUpdate(Order order) {
+		String updateSql = "UPDATE orders SET total_price = :totalPrice WHERE id = :id";
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("id", order.getId())
 				.addValue("totalPrice", order.getCalcTotalPrice());
-		String updateSql = "UPDATE orders SET total_price = :totalPrice WHERE id = :id";
 		template.update(updateSql, param);
 	}
 	

@@ -15,7 +15,7 @@ class ItemDetailRepositoryTest {
 	ItemDetailRepository itemDetailrepository;
 
 	@Test
-	void testLoad_select_item_truee() {
+	void testLoad_select_item_true() {
 
 		Item expectedItem = new Item();
 
@@ -30,7 +30,6 @@ class ItemDetailRepositoryTest {
 		assertEquals(800, expectedItem.getPriceL(), "itemDetailrepository.load()の引数が1の場合、price_Lは800");
 		assertEquals("1.jpg", expectedItem.getImagePath(), "itemDetailrepository.load()の引数が1の場合、image_pathは1.jpg");
 
-    
 		expectedItem = itemDetailrepository.load(18);
 
 		assertEquals(18, expectedItem.getId(), "itemDetailrepository.load()の引数が18の場合、idは18");
@@ -42,12 +41,4 @@ class ItemDetailRepositoryTest {
 		assertEquals("18.jpg", expectedItem.getImagePath(), "itemDetailrepository.load()の引数が18の場合、image_pathは18.jpg");
 
 	}
-	
-	@Test
-	void testLord_select_fail() {
-		
-	}
-
-	
-
 }

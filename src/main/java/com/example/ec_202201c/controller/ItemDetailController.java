@@ -53,7 +53,6 @@ public class ItemDetailController {
 	public String addOrderItemToCart(InsertOrderItemForm orderItemForm,Integer itemId,@AuthenticationPrincipal Account account, Model model) {
 		
 		Order order = itemDetailService.ordersNullChecked(account.getUser().getId());
-		System.out.println(order);
 		Item item = itemDetailService.showDetail(itemId);
 		
 		/* 全件の取得 */
@@ -107,8 +106,6 @@ public class ItemDetailController {
 			
 			Order shoppingCart = new Order();
 			shoppingCart = itemDetailService.findShoppingCartByUserId(account.getUser().getId());
-			
-			System.out.println(shoppingCart.getId() + "aaa");
 			
 			Item inItem = new Item();
 			if(orderItemForm.getSize() == 'M') {
