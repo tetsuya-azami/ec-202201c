@@ -29,7 +29,8 @@ create table users (
 INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト1','test1@example.com', 'pass1','011-1111', '住所1','111-1111-1111',1);
 -- 一般ユーザ
 INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト2','test2@example.com', 'pass2','022-2222', '住所2','222-2222-2222',2);
-
+-- 一般ユーザ（カートに商品なし）
+INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト3','test3@example.com', 'pass3','033-3333', '住所3','333-3333-3333',2);
 
 -- 商品
 drop table if exists items cascade;
@@ -127,6 +128,10 @@ VALUES(2,0,0,null,null,null,null,null,null,null,null);
 --一般ユーザ注文済み
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
 VALUES(2,1,0,'2222-02-02','テストユーザ','test2@test.co.jp','222-2222','住所2','222-2222','2022-02-22',1);
+--一般ユーザ(カート内商品なし)
+INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+VALUES(3,0,0,null,null,null,null,null,null,null,null);
+
 
 -- 注文商品
 drop table if exists order_items cascade;
