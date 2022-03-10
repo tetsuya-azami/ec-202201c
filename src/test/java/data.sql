@@ -26,9 +26,9 @@ create table users (
 ) ;
 
 -- 管理者ユーザ
-INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト1','test1@example.com', 'pass1','111-1111', '住所1','111-1111-1111',1);
+INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト1','test1@example.com', 'pass1','011-1111', '住所1','111-1111-1111',1);
 -- 一般ユーザ
-INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト2','test2@example.com', 'pass2','222-2222', '住所2','222-2222-2222',2);
+INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト2','test2@example.com', 'pass2','022-2222', '住所2','222-2222-2222',2);
 
 
 -- 商品
@@ -115,18 +115,18 @@ create table orders (
   ) ;
 
 --orders
---rakunoo未注文
+--管理者未注文
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
 VALUES(1,0,0,null,null,null,null,null,null,null,null);
---rakunoo注文済み
+--管理者注文済み
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(1,1,0,'1111-11-11','宛先1','rakunoo@example.com','111-1111','rakunoo住所','011-1111-1111','2022-02-01',1);
---テストユーザ未注文
+VALUES(1,1,0,'1111-01-01','宛先1','test1@example.com','111-1111','住所1','111-1111-1111','1111-11-11',1);
+--一般ユーザ未注文
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
 VALUES(2,0,0,null,null,null,null,null,null,null,null);
---テストユーザ注文済み
+--一般ユーザ注文済み
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(2,1,0,'2222-02-02','テストユーザ','test@test.co.jp','222-2222','住所','022-2222','2022-02-22',1);
+VALUES(2,1,0,'2222-02-02','テストユーザ','test2@test.co.jp','222-2222','住所2','222-2222','2022-02-22',1);
 
 -- 注文商品
 drop table if exists order_items cascade;

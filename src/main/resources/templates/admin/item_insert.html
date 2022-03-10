@@ -57,9 +57,19 @@
                         class="error-messages"
                         th:errors="*{uploadFile}"
                         style="color: red"
-                        >商品名エラーメッセージ</label
+                        >アップロードファイルエラーメッセージ</label
                       ><br />
-                      <input type="file" th:field="*{uploadFile}" />
+                      <label
+                        for="uploadFile"
+                        th:if="${filesizeExceedException}"
+                        th:text="${filesizeExceedException}"
+                        style="color: red"
+                      ></label>
+                      <input
+                        type="file"
+                        th:field="*{uploadFile}"
+                        accept=".jpg,.png,image/jpeg,image/png"
+                      />
                     </td>
                   </tr>
                   <tr>
