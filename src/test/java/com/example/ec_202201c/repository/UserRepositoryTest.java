@@ -36,21 +36,38 @@ class UserRepositoryTest {
     
     @Test
     public void UserInsert() {
-    	//ユーザーidが3の情報をインサート処理
-    	User user1 = new User("JunitTest","12345@sample.com","12345678","123-4567","住所テスト1","111-2222-3333",1);
-    	userRepository.insert(user1);
-    	
-    	//ユーザーidが3の場合
-		String sql = "SELECT * FROM users WHERE id = 3";
-		SqlParameterSource param = new MapSqlParameterSource();
-		User findUser = template.queryForObject(sql, param, USER_TEST_ROWMAPPER);
-		assertEquals("JunitTest", findUser.getName(),"名前");
-		assertEquals("12345@sample.com", findUser.getEmail(),"Email");
-		assertEquals("12345678", findUser.getPassword(),"パスワード");
-		assertEquals("123-4567", findUser.getZipcode(),"郵便番号");
-		assertEquals("住所テスト1", findUser.getAddress(),"住所");
-		assertEquals("111-2222-3333", findUser.getTelephone(),"電話番号");
-		assertEquals(1, findUser.getRole(),"管理者識別番号");
+//    	テストケース1
+//    	ユーザー(JunitTest)の情報をインサート処理
+    	User testUser1 = new User("JunitTest","12345@sample.com","12345678","123-4567","住所テスト1","111-2222-3333",1);
+    	userRepository.insert(testUser1);
+//		select (JunitTest)
+		String sql1 = "SELECT * FROM users WHERE name = 'JunitTest';";
+		SqlParameterSource param1 = new MapSqlParameterSource();
+		User findUser1 = template.queryForObject(sql1, param1, USER_TEST_ROWMAPPER);
+		assertEquals("JunitTest", findUser1.getName(),"名前1");
+		assertEquals("12345@sample.com", findUser1.getEmail(),"Email1");
+		assertEquals("12345678", findUser1.getPassword(),"パスワード1");
+		assertEquals("123-4567", findUser1.getZipcode(),"郵便番号1");
+		assertEquals("住所テスト1", findUser1.getAddress(),"住所1");
+		assertEquals("111-2222-3333", findUser1.getTelephone(),"電話番号1");
+		assertEquals(1, findUser1.getRole(),"管理者識別番号1");
+		
+//    	テストケース2
+//      ユーザー(akita)の情報をインサート処理
+		User testUser2 = new User("akita","akita@sample.com","akatakazuki","123-4567","住所テスト2","000-9999-8888",2);
+    	userRepository.insert(testUser2);
+//		select (akita)
+    	String sql2 = "SELECT * FROM users WHERE name = 'akita';";
+		SqlParameterSource param2 = new MapSqlParameterSource();
+		User findUser2 = template.queryForObject(sql2, param2, USER_TEST_ROWMAPPER);
+		
+		assertEquals("akita", findUser2.getName(),"名前2");
+		assertEquals("akita@sample.com", findUser2.getEmail(),"Email2");
+		assertEquals("akatakazuki", findUser2.getPassword(),"パスワード2");
+		assertEquals("123-4567", findUser2.getZipcode(),"郵便番号2");
+		assertEquals("住所テスト2", findUser2.getAddress(),"住所2");
+		assertEquals("000-9999-8888", findUser2.getTelephone(),"電話番号2");
+		assertEquals(2, findUser2.getRole(),"管理者識別番号2");
 	}
     
         
