@@ -27,5 +27,4 @@ class UserRepositoryTest {
 		assertNull(user3,"登録してあるメールアドレスが無い場合のケース");
 	}
 	
-	
 }
