@@ -101,7 +101,8 @@ public class OrderConfirmRepository {
 		sql.append("ON oi.item_id = i.id ");
 		sql.append("LEFT OUTER JOIN toppings t ");
 		sql.append("ON ot.topping_id = t.id ");
-		sql.append("WHERE o.user_id = :userId AND o.status = 0;");
+		sql.append("WHERE o.user_id = :userId AND o.status = 0 ");
+		sql.append("ORDER BY oi_id;");
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		Order order = template.query(sql.toString(), param, ORDER_CONDIRM_ROW_MAPPER);

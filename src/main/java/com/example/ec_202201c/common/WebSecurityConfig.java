@@ -27,14 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	/** 認可の設定やログイン/ログアウトに関する設定をするメソッド */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// 認可に関する設定
-		// http.authorizeRequests().antMatchers("/", "/user/toInsert", "/user/insert",
-		// "/user/create")
-		// .permitAll().and().authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
-		// .anyRequest().authenticated();
-
 		http.authorizeRequests()
-				.antMatchers("/cart/list", "/cart/delete", "/order/history", "/item/save")
+				.antMatchers("/cart/list", "/cart/delete", "/order/history", "/item/save",
+						"/order/confirm", "/order/finishing", "/order/finished")
 				.authenticated().and().authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().permitAll();
 
