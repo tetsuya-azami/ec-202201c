@@ -29,7 +29,7 @@ public class OrderHistoryController {
 		
 		List<Order> orderList = orderHistoryService.findHistoryByUserId(account.getUser().getId());
 		model.addAttribute("orderList", orderList);
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + orderList);
+		//System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + orderList.get(0).getOrderItemList().get(0).getItem().getName());
 		return "order_history";
 	}
 }

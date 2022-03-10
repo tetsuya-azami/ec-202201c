@@ -152,8 +152,8 @@ INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,2,1,'M'),(7
 --テストユーザ未注文
 INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,3,1,'M'),(2,3,2,'L'),(3,3,3,'M'),(4,3,4,'L'),(5,3,1,'L');
 --テストユーザ注文済み
-INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M'),(7,4,2,'L'),(8,4,3,'M'),(9,4,4,'L'),(10,4,1,'L');
-
+--INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M'),(7,4,2,'L'),(8,4,3,'M'),(9,4,4,'L'),(10,4,1,'L');
+INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M');
 
 -- 注文トッピング
 drop table if exists order_toppings cascade;
@@ -172,4 +172,5 @@ INSERT INTO order_toppings (topping_id,order_item_id) VALUES(5,6),(6,6),(7,7),(8
 --テストユーザ未注文
 INSERT INTO order_toppings (topping_id,order_item_id) VALUES(9,11),(10,11),(11,12),(12,12);
 --テストユーザ注文済み
-INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16),(14,16),(15,17),(16,17);
+--INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16),(14,16),(15,17),(16,17);
+INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16);
