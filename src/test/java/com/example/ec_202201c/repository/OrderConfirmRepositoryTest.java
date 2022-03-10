@@ -1,6 +1,7 @@
 package com.example.ec_202201c.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,14 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class OrderConfirmRepositoryTest {
+	private Order order = null;
+	private List<String> orderItemNames = null;
+
 	@Autowired
 	private OrderConfirmRepository orderConfirmRepository;
 
 	@Nested
-	class testFindShoppingCartByUserId {
-		private Order order = null;
-		private List<String> orderItemNames = null;
-
+	class findShoppingCartByUserId_ログインユーザidが1の場合 {
 		@BeforeEach
 		void setUpOrder() {
 			// idが1であるユーザのショッピングカートを取得する
@@ -30,6 +31,11 @@ public class OrderConfirmRepositoryTest {
 			// 取得したorderItemの商品名のリストを作成
 			orderItemNames = order.getOrderItemList().stream()
 					.map(orderItem -> orderItem.getItem().getName()).collect(Collectors.toList());
+		}
+
+		@Test
+		void Order型のインスタンスを返すこと() {
+			assertTrue(order instanceof Order);
 		}
 
 		@Test
@@ -143,13 +149,37 @@ public class OrderConfirmRepositoryTest {
 
 			assertEquals(null, kasaneToppingList.get(0));
 		}
-
-
-
 	}
 
-	@Test
-	void testFinishingOrder() {
+	@Nested
+	class findShoppingCartByUserId_ログインユーザidがnullの場合 {
+		@Test
+		void Order型のインスタンスを返すこと() {
+			assertTrue(order instanceof Order);
+		}
 
+		@Test
+		void hogehoge() {
+			order = orderConfirmRepository.findShoppingCartByUserId(null);
+			// 商品リストが空で返ってくること
+			assertTrue(order.getOrderItemList().isEmpty());
+			// OrderConfirmControllerで商品リストが空である判定をする際にNullPointerExceptionが発生すること
+			assertThrows(NullPointerException.class, () -> order.getOrderItemList().isEmpty());
+		}
+	}
+
+	@Nested
+	class findShoppingCartByUserId_ログインユーザidが3の場合 {
+		@Test
+		void Order型のインスタンスを返すこと() {
+			assertTrue(order instanceof Order);
+		}
+
+		@Test
+		void ショッピングカートの中身が空であること() {
+			// ショッピングカート内の商品空となっているユーザのショッピングカートを取得
+			order = orderConfirmRepository.findShoppingCartByUserId(3);
+			assertTrue(order.getOrderItemList().isEmpty());
+		}
 	}
 }
