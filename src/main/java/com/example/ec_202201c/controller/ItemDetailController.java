@@ -51,16 +51,14 @@ public class ItemDetailController {
 
 	@RequestMapping("/save")
 	public String addOrderItemToCart(InsertOrderItemForm orderItemForm,Integer itemId,@AuthenticationPrincipal Account account, Model model) {
-
+		
 		Order order = itemDetailService.ordersNullChecked(account.getUser().getId());
 		Item item = itemDetailService.showDetail(itemId);
+		
 		/* 全件の取得 */
 		List<Topping> toppingList = itemDetailService.findAll();
-		  
 		if (order == null) {
 			
-			System.out.println("nullです。");
-			System.out.println(item);
 			/* 注文がnullの場合orderのインスタンスを生成 */
 			Order shoppingCart = new Order();
 			shoppingCart.setUserId(account.getUser().getId());
@@ -108,8 +106,6 @@ public class ItemDetailController {
 			
 			Order shoppingCart = new Order();
 			shoppingCart = itemDetailService.findShoppingCartByUserId(account.getUser().getId());
-			
-			System.out.println(shoppingCart.getId() + "aaa");
 			
 			Item inItem = new Item();
 			if(orderItemForm.getSize() == 'M') {

@@ -115,7 +115,7 @@ public class CartListRepository {
 	/**
 	 * カート内商品、カート内トッピング削除機能
 	 *
-	 * @param 商品ID
+	 * @param 商品ID,ユーザーID
 	 */
 	public void deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
 		StringBuilder sql = new StringBuilder();
@@ -133,4 +133,14 @@ public class CartListRepository {
 				userId);
 		template.update(sql.toString(), param);
 	}
+	
+	public void deleteOrderByUserId(Integer userId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("DELETE FROM orders ");
+		sql.append("WHERE user_id = :userId AND status = 0");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
+		template.update(sql.toString(), param);
+	}
+	
+	
 }

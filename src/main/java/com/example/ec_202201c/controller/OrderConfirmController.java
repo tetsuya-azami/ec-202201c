@@ -58,6 +58,7 @@ public class OrderConfirmController {
 				result.rejectValue("deliveryTime", "toEarlyDeliveryTimeError");
 			}
 		} catch (ParseException e1) {
+			result.rejectValue("deliveryTime", "DateTimeFormat", new String[] {"日付"}, null);
 			e1.printStackTrace();
 		}
 
@@ -81,6 +82,13 @@ public class OrderConfirmController {
 		return "redirect:/order/finished";
 	}
 
+	/**
+	 * 配達時間が3時間以内に指定されていればtrue, そうでなければfalseを返す
+	 *
+	 * @param deliveryTime 配達時間
+	 * @return true or false
+	 * @author Tetsuya Azami
+	 */
 	public Boolean checkIfTooEearlyDeliveryTime(Date deliveryTime) {
 		Date now = new Date();
 		long durationByMiliseconds = deliveryTime.getTime() - now.getTime();

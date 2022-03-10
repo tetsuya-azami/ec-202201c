@@ -18,5 +18,9 @@ public class CartListService {
 	public void deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
 		cartListRepository.deleteOrderItemsAndOrderToppingsByOrderItemId(orderItemId, userId);
 	}
+	
+	public void deleteOrderByUserId(Integer userId) {
+		cartListRepository.deleteOrderByUserId(userId);
+	}
 
 }

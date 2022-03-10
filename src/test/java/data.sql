@@ -26,10 +26,11 @@ create table users (
 ) ;
 
 -- 管理者ユーザ
-INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト1','test1@example.com', 'pass1','111-1111', '住所1','111-1111-1111',1);
+INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト1','test1@example.com', 'pass1','011-1111', '住所1','111-1111-1111',1);
 -- 一般ユーザ
-INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト2','test2@example.com', 'pass2','222-2222', '住所2','222-2222-2222',2);
-
+INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト2','test2@example.com', 'pass2','022-2222', '住所2','222-2222-2222',2);
+-- 一般ユーザ（カートに商品なし）
+INSERT INTO users (name, email, password, zipcode, address, telephone, role) VALUES('テスト3','test3@example.com', 'pass3','033-3333', '住所3','333-3333-3333',2);
 
 -- 商品
 drop table if exists items cascade;
@@ -115,18 +116,22 @@ create table orders (
   ) ;
 
 --orders
---rakunoo未注文
+--管理者未注文
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
 VALUES(1,0,0,null,null,null,null,null,null,null,null);
---rakunoo注文済み
---INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
---VALUES(1,1,0,'1111-11-11','宛先1','rakunoo@example.com','111-1111','rakunoo住所','011-1111-1111','2022-02-01',1);
---テストユーザ未注文
+--管理者注文済み
+INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+VALUES(1,1,0,'1111-01-01','宛先1','test1@example.com','111-1111','住所1','111-1111-1111','1111-11-11',1);
+--一般ユーザ未注文
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
 VALUES(2,0,0,null,null,null,null,null,null,null,null);
---テストユーザ注文済み
+--一般ユーザ注文済み
 INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(2,1,0,'2222-02-02','テストユーザ','test@test.co.jp','222-2222','住所','022-2222','2022-02-22',1);
+VALUES(2,1,0,'2222-02-02','テストユーザ','test2@test.co.jp','222-2222','住所2','222-2222','2022-02-22',1);
+--一般ユーザ(カート内商品なし)
+INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+VALUES(3,0,0,null,null,null,null,null,null,null,null);
+
 
 -- 注文商品
 drop table if exists order_items cascade;
@@ -143,13 +148,12 @@ create table order_items (
 --rakunoo未注文
 INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,1,1,'M'),(2,1,2,'L'),(3,1,3,'M'),(4,1,4,'L'),(5,1,1,'L');
 --rakunoo注文済み
---INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,2,1,'M'),(7,2,2,'L'),(8,2,3,'M'),(9,2,4,'L'),(10,2,1,'L');
---INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,2,1,'M');
+INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,2,1,'M'),(7,2,2,'L'),(8,2,3,'M'),(9,2,4,'L'),(10,2,1,'L');
 --テストユーザ未注文
 INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,3,1,'M'),(2,3,2,'L'),(3,3,3,'M'),(4,3,4,'L'),(5,3,1,'L');
 --テストユーザ注文済み
-INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M'),(7,4,2,'L'),(8,4,3,'M'),(9,4,4,'L'),(10,4,1,'L');
-
+--INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M'),(7,4,2,'L'),(8,4,3,'M'),(9,4,4,'L'),(10,4,1,'L');
+INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M');
 
 -- 注文トッピング
 drop table if exists order_toppings cascade;
@@ -164,9 +168,9 @@ create table order_toppings (
 --rakunoo未注文
 INSERT INTO order_toppings (topping_id,order_item_id) VALUES(1,1),(2,1),(3,2),(4,2);
 --rakunoo注文済み
---INSERT INTO order_toppings (topping_id,order_item_id) VALUES(5,6),(6,6),(7,7),(8,7);
---INSERT INTO order_toppings (topping_id,order_item_id) VALUES(5,6);
+INSERT INTO order_toppings (topping_id,order_item_id) VALUES(5,6),(6,6),(7,7),(8,7);
 --テストユーザ未注文
 INSERT INTO order_toppings (topping_id,order_item_id) VALUES(9,11),(10,11),(11,12),(12,12);
 --テストユーザ注文済み
-INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16),(14,16),(15,17),(16,17);
+--INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16),(14,16),(15,17),(16,17);
+INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16);

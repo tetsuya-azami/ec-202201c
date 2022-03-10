@@ -20,8 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -80,9 +78,6 @@ public class AdminInsertController {
 			e.printStackTrace();
 			// 画像処理の途中でIOに関するエラーが発生した場合
 			result.rejectValue("uploadFile", "uploadError");
-		} catch (MaxUploadSizeExceededException e) {
-			e.printStackTrace();
-			result.rejectValue("uploadFile", "filesizeExceedException");
 		}
 
 		if (result.hasErrors()) {
@@ -99,7 +94,7 @@ public class AdminInsertController {
 
 		redirectAttributes.addFlashAttribute("insertSuccess",
 				messageSource.getMessage("insertSuccess", new String[] {}, Locale.getDefault()));
-		return "redirect:/item/list";
+		return "redirect:/admin/item/toInsert";
 	}
 
 	/**
@@ -112,7 +107,7 @@ public class AdminInsertController {
 	 * @throws IOException
 	 */
 	public String saveImage(ItemInsertForm itemInsertForm)
-			throws IllegalExtensionException, IOException, MaxUploadSizeExceededException {
+			throws IllegalExtensionException, IOException {
 		String productName = itemInsertForm.getName();
 		// IllegalExtensionExceptionが発生している場合は呼び出し元に例外を伝播させる
 		String saveImageName = null;
@@ -125,6 +120,7 @@ public class AdminInsertController {
 		try (OutputStream os = Files.newOutputStream(imagePath, StandardOpenOption.CREATE)) {
 			byte[] bytes = itemInsertForm.getUploadFile().getBytes();
 			os.write(bytes);
+			os.flush();
 			return saveImageName;
 		}
 	}

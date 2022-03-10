@@ -32,6 +32,7 @@ public class AdminRepository {
 		sql.append("WHERE name = :name");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name);
 		List<Item> itemList = template.query(sql.toString(), param, ITEM_ROW_MAPPER);
+		System.out.println(itemList);
 		if (itemList.size() == 0) {
 			return null;
 		} else {

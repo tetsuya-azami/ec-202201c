@@ -49,26 +49,26 @@
 									</div>
 									<div class="col-sm-12">
 
-										<label class="radio-inline"> 
+										<label class="radio-inline">
 										<input type="radio"
-											name="size" 
-											th:value="M" 
-											th:field="*{size}"
+											name="size"
+											th:value="M"
+
 											class="size"
 											value="M"
-											checked="checked"
-											/> 
+											th:checked="true"
+											/>
 											<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;
 											<span th:text="${item.priceM}"></span>
 											<input type="hidden" id="itemPriceM" th:value="${item.priceM}">
-										</label> <label class="radio-inline"> 
+										</label> <label class="radio-inline">
 										<input type="radio"
-											name="size" 
-											th:value="L" 
-											th:field="*{size}"
+											name="size"
+											th:value="L"
+
 											class="size"
 											value="L"
-											/> 
+											/>
 											<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;
 											<span th:text="${item.priceL}"></span>
 											<input type="hidden" id="itemPriceL" th:value="${item.priceL}">
@@ -148,10 +148,7 @@
 		</form>
 	</div>
 	<!-- end container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script th:src="@{/js/common.js}"></script>
+	<span th:insert="fragment_part::frag_common_scripts"></span>
 	<script th:src="@{/js/detail_total_price.js}"></script>
 </body>
 </html>
