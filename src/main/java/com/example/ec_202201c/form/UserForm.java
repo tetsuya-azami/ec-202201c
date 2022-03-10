@@ -3,6 +3,7 @@ package com.example.ec_202201c.form;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class UserForm {
 
@@ -17,6 +18,7 @@ public class UserForm {
 
 	/** パスワード */
 	@NotBlank
+	@Size(min=8,max=16)
 	private String password;
 
 	/** 郵便番号 */
