@@ -19,7 +19,7 @@ class CartListRepositoryTest {
 		order = cartListRepository.findShoppingCartByUserId(1);
 		
 //		assertEquals(1, order, "オーダーID");
-//		assertEquals(0,order.getTotalPrice(),"合計金額");
-//		
+		assertEquals(0,order,"合計金額");
+		
 	}
 }
