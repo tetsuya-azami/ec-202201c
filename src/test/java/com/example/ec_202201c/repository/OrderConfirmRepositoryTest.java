@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.example.ec_202201c.domain.Order;
 import com.example.ec_202201c.domain.OrderItem;
+import com.example.ec_202201c.exception.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class OrderConfirmRepositoryTest {
 	@Nested
 	class findShoppingCartByUserId_ログインユーザidが1の場合 {
 		@BeforeEach
-		void setUpOrder() {
+		void setUpOrder() throws UserNotFoundException {
 			// idが1であるユーザのショッピングカートを取得する
 			order = orderConfirmRepository.findShoppingCartByUserId(1);
 
@@ -154,31 +155,27 @@ public class OrderConfirmRepositoryTest {
 	@Nested
 	class findShoppingCartByUserId_ログインユーザidがnullの場合 {
 		@Test
-		void Order型のインスタンスを返すこと() {
-			assertTrue(order instanceof Order);
-		}
-
-		@Test
-		void hogehoge() {
-			order = orderConfirmRepository.findShoppingCartByUserId(null);
-			// 商品リストが空で返ってくること
-			assertTrue(order.getOrderItemList().isEmpty());
-			// OrderConfirmControllerで商品リストが空である判定をする際にNullPointerExceptionが発生すること
-			assertThrows(NullPointerException.class, () -> order.getOrderItemList().isEmpty());
+		void UserNotFoundExceptionが発生すること() {
+			assertThrows(UserNotFoundException.class,
+					() -> orderConfirmRepository.findShoppingCartByUserId(null));
 		}
 	}
 
 	@Nested
 	class findShoppingCartByUserId_ログインユーザidが3の場合 {
+		@BeforeEach
+		void setUpOrder() throws UserNotFoundException {
+			order = orderConfirmRepository.findShoppingCartByUserId(3);
+		}
+
 		@Test
 		void Order型のインスタンスを返すこと() {
 			assertTrue(order instanceof Order);
 		}
 
 		@Test
-		void ショッピングカートの中身が空であること() {
+		void ショッピングカートの中身が空であること() throws UserNotFoundException {
 			// ショッピングカート内の商品空となっているユーザのショッピングカートを取得
-			order = orderConfirmRepository.findShoppingCartByUserId(3);
 			assertTrue(order.getOrderItemList().isEmpty());
 		}
 	}

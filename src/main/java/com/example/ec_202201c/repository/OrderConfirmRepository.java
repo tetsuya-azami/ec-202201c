@@ -7,6 +7,7 @@ import com.example.ec_202201c.domain.Order;
 import com.example.ec_202201c.domain.OrderItem;
 import com.example.ec_202201c.domain.OrderTopping;
 import com.example.ec_202201c.domain.Topping;
+import com.example.ec_202201c.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -76,7 +77,10 @@ public class OrderConfirmRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
-	public Order findShoppingCartByUserId(Integer userId) {
+	public Order findShoppingCartByUserId(Integer userId) throws UserNotFoundException {
+		if (userId == null) {
+			throw new UserNotFoundException("");
+		}
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ");
 		sql.append("oi.id oi_id, ");
