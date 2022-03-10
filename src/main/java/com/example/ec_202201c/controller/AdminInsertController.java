@@ -94,7 +94,7 @@ public class AdminInsertController {
 
 		redirectAttributes.addFlashAttribute("insertSuccess",
 				messageSource.getMessage("insertSuccess", new String[] {}, Locale.getDefault()));
-		return "redirect:/item/list";
+		return "redirect:/admin/item/toInsert";
 	}
 
 	/**
