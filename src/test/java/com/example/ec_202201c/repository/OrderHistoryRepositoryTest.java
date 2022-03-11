@@ -24,7 +24,7 @@ class OrderHistoryRepositoryTest {
 		List<Order> orderList = orderHistoryRepository.findHistoryByUserId(1); 
 		assertEquals("川越とんこつ醤油",orderList.get(0).getOrderItemList().get(0).getItem().getName(), "注文履歴リストの0番目は川越とんこつ醤油です"); 
 		assertEquals("元祖・白丸元味／元祖・赤丸新味", orderList.get(0).getOrderItemList().get(1).getItem().getName(), "注文履歴リストの1番目は元祖・白丸元味／元祖・赤丸新味です");
-		assertEquals('L', orderList.get(0).getOrderItemList().get(1).getSize(), "注文履歴リストの1番目は元祖・白丸元味／元祖・赤丸新味です");
+		assertEquals('L', orderList.get(0).getOrderItemList().get(1).getSize(), "元祖・白丸元味／元祖・赤丸新味のサイズはLサイズです。");
 	 }
 	
 	//商品を1つだけ注文した場合のテスト
