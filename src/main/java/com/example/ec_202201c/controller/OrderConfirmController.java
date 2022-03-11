@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import com.example.ec_202201c.domain.Account;
 import com.example.ec_202201c.domain.Order;
+import com.example.ec_202201c.exception.UserNotFoundException;
 import com.example.ec_202201c.form.OrderForm;
 import com.example.ec_202201c.service.OrderConfirmService;
 import org.springframework.beans.BeanUtils;
@@ -34,10 +35,17 @@ public class OrderConfirmController {
 	 */
 	@RequestMapping("/confirm")
 	public String confirm(@AuthenticationPrincipal Account account, Model model) {
-		Order order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+		Order order;
+		try {
+			order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return "redirect:/";
+		}
 		if (order.getOrderItemList().isEmpty()) {
 			return "redirect:/cart/list";
 		}
+
 		model.addAttribute("order", order);
 		return "order_confirm";
 	}
@@ -65,7 +73,14 @@ public class OrderConfirmController {
 		if (result.hasErrors()) {
 			return confirm(account, model);
 		}
-		Order order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+
+		Order order;
+		try {
+			order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+		} catch (UserNotFoundException e1) {
+			e1.printStackTrace();
+			return "redirect:/";
+		}
 
 		// formからorderオブジェクトへの詰め替え
 		BeanUtils.copyProperties(orderForm, order);
