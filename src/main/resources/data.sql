@@ -43,35 +43,35 @@ insert into toppings (name,price_m,price_l) values('追い飯', 200, 300);
 
 --orders
 --rakunoo未注文
-INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(1,0,0,null,null,null,null,null,null,null,null);
---rakunoo注文済み
-INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(1,1,0,'1111-11-11','宛先1','rakunoo@example.com','111-1111','rakunoo住所','011-1111-1111','2022-02-01',1);
---テストユーザ未注文
-INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(2,0,0,null,null,null,null,null,null,null,null);
---テストユーザ注文済み
-INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
-VALUES(2,1,0,'2222-02-02','テストユーザ','test@test.co.jp','222-2222','住所','022-2222','2022-02-22',1);
+-- INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+-- VALUES(1,0,0,null,null,null,null,null,null,null,null);
+-- --rakunoo注文済み
+-- INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+-- VALUES(1,1,0,'1111-11-11','宛先1','rakunoo@example.com','111-1111','rakunoo住所','011-1111-1111','2022-02-01',1);
+-- --テストユーザ未注文
+-- INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+-- VALUES(2,0,0,null,null,null,null,null,null,null,null);
+-- --テストユーザ注文済み
+-- INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)
+-- VALUES(2,1,0,'2222-02-02','テストユーザ','test@test.co.jp','222-2222','住所','022-2222','2022-02-22',1);
 
 
 --order_items
 --rakunoo未注文
-INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,1,1,'M'),(2,1,2,'L'),(3,1,3,'M'),(4,1,4,'L'),(5,1,1,'L');
---rakunoo注文済み
-INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,2,1,'M'),(7,2,2,'L'),(8,2,3,'M'),(9,2,4,'L'),(10,2,1,'L');
---テストユーザ未注文
-INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,3,1,'M'),(2,3,2,'L'),(3,3,3,'M'),(4,3,4,'L'),(5,3,1,'L');
---テストユーザ注文済み
-INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M'),(7,4,2,'L'),(8,4,3,'M'),(9,4,4,'L'),(10,4,1,'L');
+-- INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,1,1,'M'),(2,1,2,'L'),(3,1,3,'M'),(4,1,4,'L'),(5,1,1,'L');
+-- --rakunoo注文済み
+-- INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,2,1,'M'),(7,2,2,'L'),(8,2,3,'M'),(9,2,4,'L'),(10,2,1,'L');
+-- --テストユーザ未注文
+-- INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(1,3,1,'M'),(2,3,2,'L'),(3,3,3,'M'),(4,3,4,'L'),(5,3,1,'L');
+-- --テストユーザ注文済み
+-- INSERT INTO order_items (item_id, order_id, quantity, size) VALUES(6,4,1,'M'),(7,4,2,'L'),(8,4,3,'M'),(9,4,4,'L'),(10,4,1,'L');
 
 --order_toppings
---rakunoo未注文
-INSERT INTO order_toppings (topping_id,order_item_id) VALUES(1,1),(2,1),(3,2),(4,2);
---rakunoo注文済み
-INSERT INTO order_toppings (topping_id,order_item_id) VALUES(5,6),(6,6),(7,7),(8,7);
---テストユーザ未注文
-INSERT INTO order_toppings (topping_id,order_item_id) VALUES(9,11),(10,11),(11,12),(12,12);
---テストユーザ注文済み
-INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16),(14,16),(15,17),(16,17);
+-- --rakunoo未注文
+-- INSERT INTO order_toppings (topping_id,order_item_id) VALUES(1,1),(2,1),(3,2),(4,2);
+-- --rakunoo注文済み
+-- INSERT INTO order_toppings (topping_id,order_item_id) VALUES(5,6),(6,6),(7,7),(8,7);
+-- --テストユーザ未注文
+-- INSERT INTO order_toppings (topping_id,order_item_id) VALUES(9,11),(10,11),(11,12),(12,12);
+-- --テストユーザ注文済み
+-- INSERT INTO order_toppings (topping_id,order_item_id) VALUES(13,16),(14,16),(15,17),(16,17);

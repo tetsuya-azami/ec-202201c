@@ -130,11 +130,11 @@ public class CartListRepository {
 		sql.append(")");
 		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN ");
 		sql.append("(SELECT id FROM deleted_order_items_id);");
-		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId).addValue("userId",
-				userId);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId)
+				.addValue("userId", userId);
 		template.update(sql.toString(), param);
 	}
-	
+
 	public void deleteOrderByUserId(Integer userId) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("DELETE FROM orders ");
@@ -142,6 +142,6 @@ public class CartListRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		template.update(sql.toString(), param);
 	}
-	
-	
+
+
 }
