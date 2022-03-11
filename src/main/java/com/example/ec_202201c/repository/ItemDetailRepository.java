@@ -50,17 +50,20 @@ public class ItemDetailRepository {
 	public Order ordersNullChecked(Integer userId) {
 		String sql = "SELECT user_id, status, total_price FROM orders WHERE user_id = :userId AND status = 0";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-		Order order =  template.queryForObject(sql, param, ORDER_ROW_MAPPER);
-		return order;
+		 List <Order> orderList =  template.query(sql, param, ORDER_ROW_MAPPER);
+		 if(orderList.size()==0) {
+			 return null;
+		 }else {
+			 return orderList.get(0);
+		 }
 	}
 	
 
 	public void ordersUpdate(Order order) {
+		String updateSql = "UPDATE orders SET total_price = :totalPrice WHERE id = :id";
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("id", order.getId())
 				.addValue("totalPrice", order.getCalcTotalPrice());
-		System.out.println(order.getId() + "order.getid");
-		String updateSql = "UPDATE orders SET total_price = :totalPrice WHERE id = :id";
 		template.update(updateSql, param);
 	}
 	

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import com.example.ec_202201c.domain.Account;
 import com.example.ec_202201c.domain.Order;
+import com.example.ec_202201c.exception.UserNotFoundException;
 import com.example.ec_202201c.form.OrderForm;
 import com.example.ec_202201c.service.OrderConfirmService;
 import org.springframework.beans.BeanUtils;
@@ -34,10 +35,17 @@ public class OrderConfirmController {
 	 */
 	@RequestMapping("/confirm")
 	public String confirm(@AuthenticationPrincipal Account account, Model model) {
-		Order order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+		Order order;
+		try {
+			order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return "redirect:/";
+		}
 		if (order.getOrderItemList().isEmpty()) {
 			return "redirect:/cart/list";
 		}
+
 		model.addAttribute("order", order);
 		return "order_confirm";
 	}
@@ -58,13 +66,21 @@ public class OrderConfirmController {
 				result.rejectValue("deliveryTime", "toEarlyDeliveryTimeError");
 			}
 		} catch (ParseException e1) {
+			result.rejectValue("deliveryTime", "DateTimeFormat", new String[] {"日付"}, null);
 			e1.printStackTrace();
 		}
 
 		if (result.hasErrors()) {
 			return confirm(account, model);
 		}
-		Order order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+
+		Order order;
+		try {
+			order = orderConfirmService.findShoppingCartByUserId(account.getUser().getId());
+		} catch (UserNotFoundException e1) {
+			e1.printStackTrace();
+			return "redirect:/";
+		}
 
 		// formからorderオブジェクトへの詰め替え
 		BeanUtils.copyProperties(orderForm, order);
@@ -81,6 +97,13 @@ public class OrderConfirmController {
 		return "redirect:/order/finished";
 	}
 
+	/**
+	 * 配達時間が3時間以内に指定されていればtrue, そうでなければfalseを返す
+	 *
+	 * @param deliveryTime 配達時間
+	 * @return true or false
+	 * @author Tetsuya Azami
+	 */
 	public Boolean checkIfTooEearlyDeliveryTime(Date deliveryTime) {
 		Date now = new Date();
 		long durationByMiliseconds = deliveryTime.getTime() - now.getTime();

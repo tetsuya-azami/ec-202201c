@@ -7,6 +7,7 @@ import com.example.ec_202201c.domain.Order;
 import com.example.ec_202201c.domain.OrderItem;
 import com.example.ec_202201c.domain.OrderTopping;
 import com.example.ec_202201c.domain.Topping;
+import com.example.ec_202201c.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -76,7 +77,10 @@ public class OrderConfirmRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
-	public Order findShoppingCartByUserId(Integer userId) {
+	public Order findShoppingCartByUserId(Integer userId) throws UserNotFoundException {
+		if (userId == null) {
+			throw new UserNotFoundException("");
+		}
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ");
 		sql.append("oi.id oi_id, ");
@@ -101,7 +105,8 @@ public class OrderConfirmRepository {
 		sql.append("ON oi.item_id = i.id ");
 		sql.append("LEFT OUTER JOIN toppings t ");
 		sql.append("ON ot.topping_id = t.id ");
-		sql.append("WHERE o.user_id = :userId AND o.status = 0;");
+		sql.append("WHERE o.user_id = :userId AND o.status = 0 ");
+		sql.append("ORDER BY oi_id;");
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		Order order = template.query(sql.toString(), param, ORDER_CONDIRM_ROW_MAPPER);

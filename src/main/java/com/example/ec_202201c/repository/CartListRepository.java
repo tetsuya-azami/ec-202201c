@@ -105,7 +105,8 @@ public class CartListRepository {
 		sql.append("ON oi.item_id = i.id ");
 		sql.append("LEFT OUTER JOIN toppings t ");
 		sql.append("ON ot.topping_id = t.id ");
-		sql.append("WHERE o.user_id = :userId AND o.status = 0;");
+		sql.append("WHERE o.user_id = :userId AND o.status = 0 ");
+		sql.append("ORDER BY oi_id;");
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		Order order = template.query(sql.toString(), param, CART_LIST_ROW_MAPPER);
@@ -115,7 +116,7 @@ public class CartListRepository {
 	/**
 	 * カート内商品、カート内トッピング削除機能
 	 *
-	 * @param 商品ID
+	 * @param 商品ID,ユーザーID
 	 */
 	public void deleteOrderItemsAndOrderToppingsByOrderItemId(Integer orderItemId, Integer userId) {
 		StringBuilder sql = new StringBuilder();
@@ -133,4 +134,14 @@ public class CartListRepository {
 				userId);
 		template.update(sql.toString(), param);
 	}
+	
+	public void deleteOrderByUserId(Integer userId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("DELETE FROM orders ");
+		sql.append("WHERE user_id = :userId AND status = 0");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
+		template.update(sql.toString(), param);
+	}
+	
+	
 }

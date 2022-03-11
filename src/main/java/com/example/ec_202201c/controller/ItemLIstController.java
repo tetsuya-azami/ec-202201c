@@ -42,6 +42,7 @@ public class ItemLIstController {
 		model.addAttribute("page", itemList);
 		model.addAttribute("itemList", itemList.getContent());
 		model.addAttribute("name", name);
+		//System.out.println("\n\n\n\n\n\n\n\n\n\n" + itemList.getContent().get(0).getName());
 		return "item_list_noodle";
 	}
 
