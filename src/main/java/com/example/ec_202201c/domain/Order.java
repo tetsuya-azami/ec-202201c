@@ -41,7 +41,6 @@ public class Order {
 		this.orderItemList = orderItemList;
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
